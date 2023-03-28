@@ -239,7 +239,7 @@ select * from vEmployeeDetailsUpdate
 update EmployeeTrigger set DepartmentId = 4
 where Id = 4
 
---- ?
+--- See on näide SQL-trigger, mida kasutatakse töötajate andmete värskendamiseks. Ja kontrollib kui viga on
 alter trigger trEmployeeDetailsInsteadOfUpdate
 on vEmployeeDetailsUpdate
 instead of update
@@ -264,7 +264,7 @@ as begin
 			return
 		end
 
-		update EmployeeTrigger set Department2Id = @DeptId
+		update EmployeeTrigger set DepartmentId = @DeptId
 		from inserted
 		join EmployeeTrigger
 		on EmployeeTrigger.Id = inserted.Id
