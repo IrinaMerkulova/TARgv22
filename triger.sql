@@ -162,17 +162,17 @@ where Id = 4
 select * from EmployeeTrigger
 select * from EmployeeAudit
 
---?
+--loomine tabelise depatment 2 ja liisamine andmed
 create table Department2
 (
 Id int primary key,
 DeptName nvarchar(20)
 )
 
-insert into Department values(1, 'IT')
-insert into Department values(2, 'Payroll')
-insert into Department values(3, 'HR')
-insert into Department values(4, 'Admin')
+insert into Department2 values(1, 'IT')
+insert into Department2 values(2, 'Payroll')
+insert into Department2 values(3, 'HR')
+insert into Department2 values(4, 'Admin')
 
 
 -- enne triggeri tegemist tuleb teha vaade?
