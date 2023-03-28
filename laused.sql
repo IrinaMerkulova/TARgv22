@@ -232,9 +232,9 @@ alter table Employees
 add City nvarchar(25)
 
 
-alter table Employees
-add DepartmentId
-int null
+ALTER TABLE Employees
+ALTER COLUMN DepartmentId INT NULL;
+
 
 
 --?
