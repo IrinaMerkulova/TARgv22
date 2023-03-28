@@ -315,12 +315,12 @@ else
 	print '@TotalCount is not null'
 print @TotalCount
 
--- annab teada, palju on meessoost isikuidu
+-- annab teada, palju on meessoost isikuid
 declare @TotalCount int
 exec spGetEmployeeCountByGender @EmployeeCount = @TotalCount out, @Gender = 'Male'
 print @TotalCount
 
----?
+---Väljundvalikut kasutatakse töötajate koguarvu salvestamiseks tabelis Töötajad.
 create proc spTotalCount2
 @TotalCount int output
 as begin
