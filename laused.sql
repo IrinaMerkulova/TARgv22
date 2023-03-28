@@ -322,7 +322,7 @@ declare @TotalCount int
 exec spGetEmployeeCountByGender @EmployeeCount = @TotalCount out, @Gender = 'Male'
 print @TotalCount
 
----?
+---protseduur valib töötajate arvu tabelist Employees ja määrab selle arvu väljundparameetrile @TotalCount.
 create proc spTotalCount2
 @TotalCount int output
 as begin
@@ -333,27 +333,27 @@ declare @TotalEmployees int
 execute spTotalCount2 @TotalEmployees output
 select @TotalEmployees
 
---- ?
+--- valib töötaja nime tabelist Employees, kasutades ID-d ja määrab selle väljundparameetrile @FirstName
 create proc spGetNameById1
 @Id int,
 @FirstName nvarchar(50) output
 as begin
-	select @FirstName = FirstName from employees where Id = @Id
+	select @FirstName = Name from employees where Id = @Id
 end
 
---?
-declare @FirstName nvarchar(50)
-execute spGetNameById1 6, @FirstName output
-print 'Name of the employee = ' + @FirstName
+--trükib see töötaja nime konsoolile
+declare @Name nvarchar(50)
+execute spGetNameById1 6, @Name output
+print 'Name of the employee = ' + @Name
 
---?
+--tagastab töötaja nime vastavalt ID-le
 create proc spGetNameById2
 @Id int
 as begin
-	return (select FirstName from Employees where Id = @Id)
+	return (select Name from Employees where Id = @Id)
 end
 
--- ?
+-- Kuvatakse kõigi töötajate andmed ja töötaja nimi, kelle ID on saadud salvestatud protseduurist.
 declare @EmployeeName nvarchar(50)
 exec @EmployeeName = spGetNameById2 1
 print 'Name of the employee = ' + @EmployeeName
