@@ -339,7 +339,7 @@ as begin
 	select @FirstName = FirstName from employees where Id = @Id
 end
 
---?
+--muutuja "FirstName" tüüpi "nvarchar(50)" ja seejärel käivitab salvestatud protseduuri "spGetNameById1" sisendparameetritega "Id=6" ja "FirstName" väljundparameetrina. Seejärel prinditakse salvestatud protseduuri tulemus PRINT-lause abil.
 declare @FirstName nvarchar(50)
 execute spGetNameById1 6, @FirstName output
 print 'Name of the employee = ' + @FirstName
