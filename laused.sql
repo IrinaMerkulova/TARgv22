@@ -99,21 +99,21 @@ add City nvarchar(25)
 
 -- tahame tead kõiki, kes elavad Gothami linnas 
 select * from Person where City = 'Gotham'
+select * from Person where City LIKE 'Gotham'
 -- kõik, kes ei ela Gothamis
 select * from Person where City <> 'Gotham'
 select * from Person where City != 'Gotham'
 
 -- näitab teatud vanusega inimesi
-select *from Person where Age = 100 or 
-Age = 50 or Age = 20
+select * from Person where Age = 100 or Age = 50 or Age = 20
 select * from Person where Age in (100, 50, 20)
 
 --- näitab teatud vanusevahemikus olevaid inimesi
 select * from Person where Age between 30 and 50
 
 --- wildcard e näitab kõik g-tähega linnad
-select * from Person where City like 'n%'
-select * from Person where Email like '%@%'
+select * from Person where City like 'g%'
+
 
 -- n'itab kõiki, kellel ei ole @-märki emailis
 select * from Person where Email not like '%@%'
