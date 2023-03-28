@@ -122,9 +122,9 @@ select * from Person where Email not like '%@%'
 -- ainult üks täht
 select * from Person where Email like '_@_.com'
 
---näitab kus nimi ei alga W,A, või Ss
+--näitab kus nimi ei alga W,A, või S
 select * from Person where Name like '[^WAS]%'
---- ?
+--- linn gotham voi new york and vanus enam voi vordus 40
 select * from Person where (City = 'Gotham' or City = 'New York')
 and Age >= 40
 
