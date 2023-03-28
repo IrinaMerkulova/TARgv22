@@ -187,6 +187,7 @@ on EmployeeTrigger.DepartmentId = Department2.Id
 
 
 ---- instead of insert trigger
+---see trigger võimaldab sisestada vaatesse "vEmployureDetails", sobitades "DeptName" väärtuse vastava "Id" väärtusega tabelis "Department2" ja lisades seejärel rea tabelisse "EmployureTrigger"
 create trigger trEmployeeDetailsInsteadOfInsert
 on vEmployeeDetails
 instead of insert
@@ -204,7 +205,7 @@ as begin
 		return
 	end
 
-	insert into EmployeeTrigger(Id, Name, Gender, Department2Id)
+	insert into EmployeeTrigger(Id, Name, Gender, DepartmentId)
 	select Id, Name, Gender, @DeptId
 	from inserted
 end
