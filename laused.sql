@@ -137,7 +137,8 @@ select top 3 Age, Name from Person
 
 --- näitab esimesed 50% tabeliss
 select top 50 percent * from Person
---?
+
+--sortida rekordid vanuse järgi
 select * from Person order by cast(Age as int)
 select * from Person order by Age
 
