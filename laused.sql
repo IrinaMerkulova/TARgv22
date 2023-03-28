@@ -185,7 +185,7 @@ Salary nvarchar(50),
 DepartmentId int
 )
 
---?
+-- andmete sisestamine Deüartment tabelisse
 insert into Department (Id, DepartmentName, Location, DepartmentHead)
 values (1, 'IT', 'London', 'Rick')
 insert into Department (Id, DepartmentName, Location, DepartmentHead)
@@ -196,6 +196,8 @@ insert into Department (Id, DepartmentName, Location, DepartmentHead)
 values (4, 'Other Deparment', 'Sydney', 'Cindrella')
 
 select * from Department
+
+-- andmete sisestamine Employees tabelisse
 
 insert into Employees (Id, Name, Gender, Salary, DepartmentId)
 values (1, 'Tom', 'Male', 4000, 1)
@@ -220,12 +222,12 @@ values (10, 'Russell', 'Male', 8800, NULL)
 
 select * from Employees
 
----?
+--- show unique names and it departmentId
 select distinct Name, DepartmentId from Employees
 
----?
+---shows as sum of all values of salary from employees table
 select sum(cast(Salary as int)) from Employees
----?
+--- shows as a minimum value of salary from employees min 
 select min(cast(Salary as int)) from Employees
 
 
@@ -238,12 +240,15 @@ add DepartmentId
 int null
 
 
---?
+---изменение названия типа adnmed и добавление столбца
 alter table Employees
 add MiddleName nvarchar(30)
 
 alter table Employees
 add LastName nvarchar(30)
+
+alter table Employees
+add FirstName nvarchar(30)
 
 update Employees set FirstName = 'Tom', MiddleName = 'Nick', LastName = 'Jones'
 where Id = 1
@@ -288,7 +293,8 @@ spGetEmployees
 exec spGetEmployees
 execute spGetEmployees
 
---- 
+--- Процедура принимает два входных параметра, "Gender" типа "nvarchar(20)" и "DepartureId" типа "int". 
+--- Эти параметры используются для фильтрации результатов
 create proc spGetEmployeesByGenderAndDepartment
 @Gender nvarchar(20),
 @DepartmentId int
@@ -304,7 +310,8 @@ spGetEmployeesByGenderAndDepartment @DepartmentId =  1, @Gender = 'Male'
 
 
 
---?
+---Процедура использует два входных параметра, "Gender" типа "nvarchar(20)" и "EmployureCount" типа "int" в качестве выходного параметра. 
+-- Выходной параметр используется для хранения количества сотрудников указанного пола.
 create proc spGetEmployeeCountByGender
 @Gender nvarchar(20),
 @EmployeeCount int output
@@ -326,7 +333,7 @@ declare @TotalCount int
 exec spGetEmployeeCountByGender @EmployeeCount = @TotalCount out, @Gender = 'Male'
 print @TotalCount
 
----?
+---Выборка вывода используется для хранения общего числа сотрудников в таблице Employees.
 create proc spTotalCount2
 @TotalCount int output
 as begin
@@ -337,7 +344,8 @@ declare @TotalEmployees int
 execute spTotalCount2 @TotalEmployees output
 select @TotalEmployees
 
---- ?
+------ Хранимая процедура принимает в качестве выходных два входных параметра: 'Id' типа 'int' и 'FirstName' типа 'nvarchar(50)'. 
+---	Выходной параметр используется для хранения имени работника с указанным идентификатором.
 create proc spGetNameById1
 @Id int,
 @FirstName nvarchar(50) output
@@ -345,19 +353,22 @@ as begin
 	select @FirstName = FirstName from employees where Id = @Id
 end
 
---?
+---переменная "FirstName" типа "nvarchar(50)", а затем запускается хранимая процедура "spGetNameById1" с входным параметром "Id=6" и "FirstName" в качестве выходного параметра. 
+--Затем результат работы хранимой процедуры печатается с помощью оператора PRINT.
 declare @FirstName nvarchar(50)
 execute spGetNameById1 6, @FirstName output
 print 'Name of the employee = ' + @FirstName
 
---?
+--В сохранённой процедуре делаем запрос с "SELECT" чтобы получить имя из таблицы "Employees", когда "Id" совпадает с входным параметром.
+--После этого результат возвращается с помощью "RETURN".
 create proc spGetNameById2
 @Id int
 as begin
 	return (select FirstName from Employees where Id = @Id)
 end
 
--- ?
+-- Достаёт имя работника с номером 1 из таблицы "Сотрудники". 
+--Возвращаемое значение записывается в переменную "EmployureName" с помощью команды EXEC.
 declare @EmployeeName nvarchar(50)
 exec @EmployeeName = spGetNameById2 1
 print 'Name of the employee = ' + @EmployeeName
