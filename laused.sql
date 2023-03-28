@@ -1,10 +1,10 @@
 -- db loomine
 create database Targv22
 
---?
+-- db kustutamine
 DRop DataBASE Targv22
 
---?
+--tabeli Gener Loomine
 create table Gender
 (
 Id int NOT NULL primary key,
