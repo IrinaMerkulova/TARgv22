@@ -38,7 +38,7 @@ AuditData nvarchar(1000)
 
 
 
---?
+--triggeri loomine, töötajate lisamine
 create trigger tr_Employee_ForInsert
 on EmployeeTrigger
 for insert
@@ -55,7 +55,7 @@ insert into EmployeeTrigger values(7, 'Jimmy', 1800, 'Male', 3)
 
 select * from EmployeeAudit
 
---- ?
+--- triggeri loomine, töötajate kustutamine
 create trigger EmployeeForDelete
 on EmployeeTrigger
 for delete
