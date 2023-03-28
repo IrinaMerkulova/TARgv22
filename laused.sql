@@ -341,7 +341,7 @@ declare @TotalEmployees int
 execute spTotalCount2 @TotalEmployees output
 select @TotalEmployees
 
---- ?
+--- Процедура возвращает имя сотрудника по заданному Id.
 create proc spGetNameById1
 @Id int,
 @FirstName nvarchar(50) output
@@ -349,21 +349,21 @@ as begin
 	select @FirstName = FirstName from employees where Id = @Id
 end
 
---?
+--получение имени сотрудника по его идентификатору.
 declare @FirstName nvarchar(50)
 execute spGetNameById1 6, @FirstName output
 print 'Name of the employee = ' + @FirstName
 
---?
-create proc spGetNameById2
+--принимает идентификатор сотрудника @Id в качестве входного параметра и возвращает его имя FirstName.
+create proc spGetNameById3
 @Id int
 as begin
-	return (select FirstName from Employees where Id = @Id)
+	select FirstName from Employees where Id = @Id
 end
 
--- ?
+-- процедура возвращает имя сотрудника с идентификатором 1 и присваивает его переменной @EmployeeName. Не задает никаких фильтров или критериев упорядочения.
 declare @EmployeeName nvarchar(50)
-exec @EmployeeName = spGetNameById2 1
-print 'Name of the employee = ' + @EmployeeName
+exec @EmployeeName = spGetNameById3 1
 
 select * from Employees
+
