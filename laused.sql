@@ -80,7 +80,7 @@ update Person
 set Age = 149
 where Id = 8
 
---?
+--lisa vanus >0 ja <150
 alter table Person
 add constraint CK_Person_Age check (Age > 0 and Age < 150)
 
@@ -127,7 +127,7 @@ select * from Person where Email not like '%@%'
 -- ainult üks täht
 select * from Person where Email like '_@_.com'
 
---?
+--näitab nimid, mis ei alga W, A või S
 select * from Person where Name like '[^WAS]%'
 --- ?
 select * from Person where (City = 'Gotham' or City = 'New York')
