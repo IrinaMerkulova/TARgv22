@@ -93,9 +93,14 @@ delete from Person where Id = 8
 go
 select * from Person
 
---- lisame veeru juurde
+-- lisame veeru juurde
 alter table Person
 add City nvarchar(25)
+
+--andmete lisamine City tabelisse 
+UPDATE Person set City='Gotham'
+UPDATE Person set City='Tartu' Where Id=3 or Id=6;
+select * from Person
 
 -- tahame tead kõiki, kes elavad Gothami linnas 
 select * from Person where City = 'Gotham'
