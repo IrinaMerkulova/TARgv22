@@ -56,6 +56,8 @@ drop constraint tblPerson_GenderId_FK
 -- sisestame väärtuse tabelisse
 insert into Gender (Id, Gender)
 values (3, 'Unknown')
+select * from Gender;
+
 -- lisame võõrvõtme uuesti
 alter table Person
 add constraint DF_Person_GenderId
@@ -122,22 +124,21 @@ select * from Person where Email not like '%@%'
 -- ainult üks täht
 select * from Person where Email like '_@_.com'
 
---?
+--Esimesed tähed mitte W või A või S
 select * from Person where Name like '[^WAS]%'
---- ?
-select * from Person where (City = 'Gotham' or City = 'New York')
-and Age >= 40
+--- Valime kõik kes elavad Gotham-is või New Yerk-is ja vanus on rohkem või võrdne 40 aastat.
+select * from Person where (City = 'Gotham' or City = 'New York') and Age >= 40
 
 ---võtab kolm esimest rida
 select top 3 * from Person
 
 --- kolm esimest, aga tabeli järjestus on Age ja siis Name
-select * from Person
-select top 3 Age, Name from Person
+select top 3 * from Person
+order by Age, Name
 
 --- näitab esimesed 50% tabelis
 select top 50 percent * from Person
---?
+--valime kõik veerud Person järjestus on Age madalamast edasi
 select * from Person order by cast(Age as int)
 select * from Person order by Age
 
