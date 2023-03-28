@@ -193,10 +193,10 @@ instead of insert
 as begin
 	declare @DeptId int
 
-	select @DeptId = Department.Id
-	from Department 
+	select @DeptId = Department2.Id
+	from Department2 
 	join inserted
-	on inserted.DeptName = Department.DeptName
+	on inserted.DeptName = Department2.DeptName
 
 	if(@DeptId is null)
 	begin
@@ -208,13 +208,14 @@ as begin
 	select Id, Name, Gender, @DeptId
 	from inserted
 end
+
 --- raiserror funktsioon
 -- selle eesmärk on välja tuua veateade, kui DepartmentName veerus ei ole väärtust
 -- ja ei ühti sisestatud väärtusega
 -- esimene parameeter on veateate sisu, teiene on veatase (nr 16 tähendab üldiseid vigu),
 -- kolmas on veaolek
 
-insert into vEmployeeDetails values(7, 'Valarie', 'Female', 'assd')
+insert into vEmployeeDetails values(7, 'Valarie', 'Female', 'it')
 
 delete from EmployeeTrigger where Id = 7
 --- 10 tund SQL
