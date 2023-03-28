@@ -219,12 +219,12 @@ values (10, 'Russell', 'Male', 8800, NULL)
 
 select * from Employees
 
----?
+---выводим только уникальные значения из указанных столбцов
 select distinct Name, DepartmentId from Employees
 
----?
+---summeerib Salary ja преобразовывает его в целочисленный тип
 select sum(cast(Salary as int)) from Employees
----?
+---выводит минимальный Salary ja преобразовывает его в целочисленный тип
 select min(cast(Salary as int)) from Employees
 
 
