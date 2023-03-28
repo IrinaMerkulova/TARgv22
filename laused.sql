@@ -220,7 +220,7 @@ select * from Employees
 --tabelist andmete valimine (Name, DepartmentId)
 select distinct Name, DepartmentId from Employees
 
----?
+--kogu palga summa
 select sum(cast(Salary as int)) from Employees
 ---?
 select min(cast(Salary as int)) from Employees
