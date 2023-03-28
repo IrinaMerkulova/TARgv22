@@ -298,7 +298,7 @@ spGetEmployeesByGenderAndDepartment @DepartmentId =  1, @Gender = 'Male'
 
 
 
---?
+--Protseduur kasutab kahte sisendparameetrit: "Gender" tüüpi "nvarchar(20)" ja "EmployureCount" tüüpi "int" väljundparameetrina. Väljundparameetrit kasutatakse määratud soost töötajate arvu salvestamiseks
 create proc spGetEmployeeCountByGender
 @Gender nvarchar(20),
 @EmployeeCount int output
