@@ -228,12 +228,14 @@ set DeptName = 'Payroll'
 where Id = 2
 
 --- teeme vaate
-alter view vEmployeeDetailsUpdate
+create view vEmployeeDetailsUpdate
 as
-select EmployeeTrigger.Id, Name, Salary, Gender, DeptName
+select EmployeeTrigger.Id, Name, Salary, Gender, Department2.DeptName
 from EmployeeTrigger
-join Department
-on EmployeeTrigger.DepartmentId = Department.Id
+join Department2
+on EmployeeTrigger.DepartmentId = DepartmentId
+
+
 
 select * from vEmployeeDetailsUpdate
 update EmployeeTrigger set DepartmentId = 4
