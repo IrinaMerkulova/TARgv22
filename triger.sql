@@ -176,12 +176,14 @@ insert into DepartmentTr values(4, 'Admin')
 
 
 -- enne triggeri tegemist tuleb teha vaade?
+--
 create view vEmployeeDetails
 as
 select EmployeeTrigger.Id, Name, Gender, DeptName
 from EmployeeTrigger
 join DepartmentTr
-on EmployeeTrigger.DepartmentId = DepartmentTr.Id
+on EmployeeTrigger.ID = DepartmentTr.Id
+
 
 select * from EmployeeTrigger
 select * from DepartmentTr
@@ -221,26 +223,26 @@ delete from EmployeeTrigger where Id = 7
 select * from EmployeeTrigger
 select * from vEmployeeDetails
 
-
 update vEmployeeDetails
 set DeptName = 'Payroll'
 where Id = 2
 
---- teeme vaate
-alter view vEmployeeDetailsUpdate
+--- teeme vaate Invalid object name 'vEmployeeDetailsUpdate' kustutame Update
+alter view vEmployeeDetails
 as
 select EmployeeTrigger.Id, Name, Salary, Gender, DeptName
 from EmployeeTrigger
-join Department
-on EmployeeTrigger.DepartmentId = Department.Id
+join DepartmentTr
+on EmployeeTrigger.Id = DepartmentTr.Id
 
-select * from vEmployeeDetailsUpdate
+--Invalid object name 'vEmployeeDetailsUpdate'.
+select * from vEmployeeDetails
 update EmployeeTrigger set DepartmentId = 4
 where Id = 4
 
---- ?
+--- The object 'vEmployeeDetailsUpdate' does not exist or is invalid for this operation.
 alter trigger trEmployeeDetailsInsteadOfUpdate
-on vEmployeeDetailsUpdate
+on vEmployeeDetails
 instead of update
 as begin
 	if(update(Id))
@@ -252,10 +254,10 @@ as begin
 	if(UPDATE(DeptName))
 	begin
 		declare @DeptId int
-		select @DeptId = Department.Id
-		from Department
+		select @DeptId = DepartmentTr.Id
+		from DepartmentTr
 		join inserted
-		on inserted.DeptName = Department.DeptName
+		on inserted.DeptName = DepartmentTr.DeptName
 
 		if(@DeptId is null)
 		begin
@@ -296,12 +298,12 @@ end
 
 select * from EmployeeTrigger
 
-update vEmployeeDetailsUpdate
+update vEmployeeDetails
 set Name = 'Johny', Gender = 'Female', DeptName = 'IT'
 where Id = 1
 
 
---- ?
+---   trigger code is deleting records from a table called "EmployeeTrigger" where the "Id" value matches the deleted record's "Id" value.
 
 create trigger trEmployeeDetails_InsteadOfDelete
 on vEmployeeDetails
