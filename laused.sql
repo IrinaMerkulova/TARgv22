@@ -98,6 +98,10 @@ select * from Person
 alter table Person
 add City nvarchar(25)
 
+-- andmete lisamine City UPDATE kaudu
+UPDATE Person Set City='Gotham';
+UPDATE Person Set City='Tartu' Where Id=2 or Id=3;
+
 -- tahame tead kõiki, kes elavad Gothami linnas 
 select * from Person where City = 'Gotham'
 -- kõik, kes ei ela Gothamis
