@@ -241,7 +241,8 @@ select * from vEmployeeDetailsUpdate
 update EmployeeTrigger set DepartmentId = 4
 where Id = 4
 
---- ?
+--- Триггер предотвращает обновление столбца Id и обновляет соответствующую таблицу EmployeeTrigger для изменений в столбцах DeptName, Gender, Name и Salary.
+---не знаю почему, но не работает, выдает ошибки на DeptName
 alter trigger trEmployeeDetailsInsteadOfUpdate
 on vEmployeeDetailsUpdate
 instead of update
