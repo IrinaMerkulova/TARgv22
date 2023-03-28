@@ -241,6 +241,7 @@ select * from vEmployeeDetailsUpdate
 update EmployeeTrigger set DepartmentId = 4
 where Id = 4
 
+
 --- ?
 alter trigger trEmployeeDetailsInsteadOfUpdate
 on vEmployeeDetailsUpdate
@@ -255,10 +256,10 @@ as begin
 	if(UPDATE(DeptName))
 	begin
 		declare @DeptId int
-		select @DeptId = Department.Id
-		from Department
+		select @DeptId = Department2.Id
+		from Department2
 		join inserted
-		on inserted.DeptName = Department.DeptName
+		on inserted.DeptName = Department2.DeptName
 
 		if(@DeptId is null)
 		begin
@@ -304,7 +305,7 @@ set Name = 'Johny', Gender = 'Female', DeptName = 'IT'
 where Id = 1
 
 
---- ?
+--- loomide trigger
 
 create trigger trEmployeeDetails_InsteadOfDelete
 on vEmployeeDetails
