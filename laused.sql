@@ -78,14 +78,15 @@ update Person
 set Age = 149
 where Id = 8
 
---?
-alter table Person
-add constraint CK_Person_Age check (Age > 0 and Age < 150)
+-- tabeli Person muutmine ja piirangu lisamine
+ALTER TABLE Person
+ADD CONSTRAINT CK_Person_Age CHECK (Age > 0 and Age < 150);
 
-insert into Person (Id, Name, Email, GenderId, Age)
-values (9, 'Test', 'Test', 2, 160)
 
---?
+INSERT INTO Person (Id, Name, Email, GenderId, Age)
+VALUES (9, 'Test', 'Test', 2, 160);
+
+--inimese kustutamine Person tabelist kellel id on 8
 select * from Person
 go
 delete from Person where Id = 8
@@ -95,6 +96,11 @@ select * from Person
 --- lisame veeru juurde
 alter table Person
 add City nvarchar(25)
+
+--andmete lisamine City UPDATE kaudu
+update Person set City = 'Gotham';
+update Person set City = 'Tartu' where Id=2 or Id=3;
+
 
 -- tahame tead kõiki, kes elavad Gothami linnas 
 select * from Person where City = 'Gotham'
@@ -121,7 +127,7 @@ select * from Person where Email not like '%@%'
 -- ainult üks täht
 select * from Person where Email like '_@_.com'
 
---?
+--näitab nimed, mis ei alga W, A, või S
 select * from Person where Name like '[^WAS]%'
 --- ?
 select * from Person where (City = 'Gotham' or City = 'New York')
