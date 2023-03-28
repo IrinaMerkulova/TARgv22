@@ -222,7 +222,12 @@ end
 -- esimene parameeter on veateate sisu, teiene on veatase (nr 16 tähendab üldiseid vigu),
 -- kolmas on veaolek
 
+-- поднимается ошибка
 insert into vEmployeeDetails values(7, 'Valarie', 'Female', 'assd')
+
+-- исправленная версия
+insert into vEmployeeDetails values(7, 'Valarie', 'Female', 'assd')
+
 
 delete from EmployeeTrigger where Id = 7
 --- 10 tund SQL
