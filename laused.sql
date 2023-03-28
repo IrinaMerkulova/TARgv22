@@ -293,10 +293,10 @@ as begin
 	and DepartmentId = @DepartmentId
 end
 
---- kõik esimeses osakonnas meessoost töötavad isikud
-spGetEmployeesByGenderAndDepartment 'Male', 1
+--- kõik esimeses osakonnas meessoost töötavad isikud/exec oli vaja panna 
+exec spGetEmployeesByGenderAndDepartment 'Male', 1
 
-spGetEmployeesByGenderAndDepartment @DepartmentId =  1, @Gender = 'Male'
+exec spGetEmployeesByGenderAndDepartment @DepartmentId =  1, @Gender = 'Male'
 
 
 
