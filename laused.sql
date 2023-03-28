@@ -131,9 +131,9 @@ select * from Person where Email not like '%@%'
 -- ainult üks täht
 select * from Person where Email like '_@_.com'
 
---?
+--näitab nimed, mis ei alga W, A või S
 select * from Person where Name like '[^WAS]%'
---- ?
+--- näitab nimed, kus linn Gotham või New York ja vanus rohkem või võrra 40
 select * from Person where (City = 'Gotham' or City = 'New York')
 and Age >= 40
 
