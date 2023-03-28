@@ -81,14 +81,14 @@ update Person
 set Age = 149
 where Id = 8
 
---?
+-- lisame võõrvõtme
 alter table Person
 add constraint CK_Person_Age check (Age > 0 and Age < 150)
 
 insert into Person (Id, Name, Email, GenderId, Age)
 values (9, 'Test', 'Test', 2, 160)
 
---?
+--Persom kustutamine kus Id on 8
 select * from Person
 go
 delete from Person where Id = 8
@@ -99,11 +99,22 @@ select * from Person
 alter table Person
 add City nvarchar(25)
 
+--andmete  lisamine City UPDATE kaudu
+UPDATE Person Set City='Gotham';
+UPDATE Person Set City='Tartu' where Id=2 or Id=3;
+
+
 -- tahame tead kõiki, kes elavad Gothami linnas 
 select * from Person where City = 'Gotham'
 -- kõik, kes ei ela Gothamis
 select * from Person where City <> 'Gotham'
 select * from Person where City != 'Gotham'
+
+--andmete  lisamine Age UPDATE kaudu
+UPDATE Person Set Age=20 where Id=1 or Id=4;
+UPDATE Person Set Age=50 where Id=2 or Id=3;
+UPDATE Person Set Age=100 where Id=5 or Id=6;
+UPDATE Person Set Age=120 where Id=7;
 
 -- näitab teatud vanusega inimesi
 select *from Person where Age = 100 or 
@@ -124,9 +135,10 @@ select * from Person where Email not like '%@%'
 -- ainult üks täht
 select * from Person where Email like '_@_.com'
 
---?
+--näitab nimed, mis ei alga W, A või S
 select * from Person where Name like '[^WAS]%'
---- ?
+
+---näitab Personid, mis elavad Gothamis või New Yorkis ja vanus vähem või võrdub 40
 select * from Person where (City = 'Gotham' or City = 'New York')
 and Age >= 40
 
@@ -139,11 +151,12 @@ select top 3 Age, Name from Person
 
 --- näitab esimesed 50% tabelis
 select top 50 percent * from Person
---?
+--soorteerib isikud nende vanuse järgi kasvavas järjekorras ja teisendab int vormile
 select * from Person order by cast(Age as int)
+--soorteerib isikud nende vanuse järgi
 select * from Person order by Age
 
---?
+--sumeerib kõi vanused ja teisendab int vormile
 select sum(cast(Age as int)) from Person
 
 --- kuvab kõige nooremat isikut
@@ -152,7 +165,6 @@ select min(cast(Age as int)) from Person
 select max(cast(Age as int)) from Person
 
 select City, sum(cast(Age as int)) as TotalAge from Person group by City
-
 
 
 
@@ -224,7 +236,7 @@ select min(cast(Salary as int)) from Employees
 alter table Employees
 add City nvarchar(25)
 
-
+--ei saa käivitada, DepartmentId juba tabelise olemas
 alter table Employees
 add DepartmentId
 int null
