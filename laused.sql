@@ -306,7 +306,7 @@ as begin
 	select @EmployeeCount = count(Id) from Employees where Gender = @Gender
 end
 
--- annab teada, palju on meessoost isikuid ning kuvab vastava stringii
+-- annab teada, palju on meessoost isikuid ning kuvab vastava stringi
 declare @TotalCount int
 exec spGetEmployeeCountByGender 'Female', @TotalCount out
 if(@TotalCount = 0)
@@ -315,7 +315,7 @@ else
 	print '@TotalCount is not null'
 print @TotalCount
 
--- annab teada, palju on meessoost isikuid
+-- annab teada, palju on meessoost isikuidu
 declare @TotalCount int
 exec spGetEmployeeCountByGender @EmployeeCount = @TotalCount out, @Gender = 'Male'
 print @TotalCount
