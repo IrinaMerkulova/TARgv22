@@ -344,7 +344,7 @@ declare @FirstName nvarchar(50)
 execute spGetNameById1 6, @FirstName output
 print 'Name of the employee = ' + @FirstName
 
---Protseduur ei toimi
+--Protseduur ei toimi returnist. RETURNI VIGA
 create proc spGetNameById2
 @Id int
 as begin
@@ -354,6 +354,6 @@ end
 -- protseduuri käivitamine
 declare @EmployeeName nvarchar(50)
 exec @EmployeeName = spGetNameById2 1
-print 'Name of the employee = ' + @EmployeeName
+print 'Name of the employee = ', @EmployeeName
 
 select * from Employees

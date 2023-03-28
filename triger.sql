@@ -22,14 +22,14 @@ Gender nvarchar(10),
 DepartmentId int
 )
 
--- ?
+--Info lisamine
 insert into EmployeeTrigger values(1, 'John', 5000, 'Male', 3)
 insert into EmployeeTrigger values(2, 'Mike', 3400, 'Male', 2)
 insert into EmployeeTrigger values(3, 'Pam', 6000, 'Female', 1)
 insert into EmployeeTrigger values(4, 'Todd', 4800, 'Male', 4)
 insert into EmployeeTrigger values(5, 'Sara', 3200, 'Female', 1)
 insert into EmployeeTrigger values(6, 'Ben', 4800, 'Male', 3) 
---tehtud
+--Teise tabeli loomine
 create table EmployeeAudit
 (
 Id int identity(1, 1) primary key,
@@ -38,7 +38,7 @@ AuditData nvarchar(1000)
 
 
 
---?
+--Triggeri loomine tabelisse sisetamiks, jälgib liisamisest
 create trigger tr_Employee_ForInsert
 on EmployeeTrigger
 for insert
@@ -55,7 +55,7 @@ insert into EmployeeTrigger values(7, 'Jimmy', 1800, 'Male', 3)
 
 select * from EmployeeAudit
 
---- ?
+--- Triggeri loomine jälgib tegevus: tabelist kustutamine
 create trigger EmployeeForDelete
 on EmployeeTrigger
 for delete
@@ -88,7 +88,7 @@ update EmployeeTrigger set Name = 'Todd', Salary = 2345,
 Gender = 'Male' where Id = 4
 
 
---- ?
+--- Trigger jälgib ükskõik milline muudatus tabelis ja lisab kirjueldus teisele tebalisse
 create trigger trEmployeeForUpdate
 on EmployeeTrigger
 for update
@@ -160,7 +160,7 @@ where Id = 4
 select * from EmployeeTrigger
 select * from EmployeeAudit
 
---?
+--Tabeli loomine ja infi lisamine
 create table Department
 (
 Id int primary key,
