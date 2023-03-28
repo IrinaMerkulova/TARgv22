@@ -351,7 +351,7 @@ as begin
 	return (select FirstName from Employees where Id = @Id)
 end
 
--- ?
+-- возвращает имя сотрудника с идентификатором 1 из таблицы «Сотрудники». Возвращаемое значение присваивается переменной « EmployureName» с помощью инструкции EXEC.
 declare @EmployeeName nvarchar(50)
 exec @EmployeeName = spGetNameById2 1
 print 'Name of the employee = ' + @EmployeeName
