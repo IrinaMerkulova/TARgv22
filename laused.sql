@@ -146,7 +146,7 @@ select top 50 percent * from Person
 select * from Person order by cast(Age as int)
 select * from Person order by Age
 
---?
+--täisarvud cast abil, liidab neid ja tekkib summa
 select sum(cast(Age as int)) from Person
 
 --- kuvab kõige nooremat isikut
