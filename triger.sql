@@ -228,8 +228,8 @@ alter view vEmployeeDetailsUpdate
 as
 select EmployeeTrigger.Id, Name, Salary, Gender, DeptName
 from EmployeeTrigger
-join Department
-on EmployeeTrigger.DepartmentId = Department.Id
+join Department2
+on EmployeeTrigger.DepartmentId = Department2.Id
 
 select * from vEmployeeDetailsUpdate
 update EmployeeTrigger set DepartmentId = 4
