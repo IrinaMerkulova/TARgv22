@@ -309,7 +309,7 @@ spGetEmployeesByGenderAndDepartment @DepartmentId =  1, @Gender = 'Male'
 
 
 
---Protseduur valib tabelis "Töötajad" kirjete arvu, kus veerg "Sugu" vastab sisendparameetri "@Gender" väärtusele, ja määrab tulemuse väljundparameetrile "@EmployeeCount".
+--Protseduur valib tabelis "Employees" kirjete arvu, kus veerg "Sugu" vastab sisendparameetri "@Gender" väärtusele, ja määrab tulemuse väljundparameetrile "@EmployeeCount".
 create proc spGetEmployeeCountByGender
 @Gender nvarchar(20),
 @EmployeeCount int output
@@ -331,7 +331,7 @@ declare @TotalCount int
 exec spGetEmployeeCountByGender @EmployeeCount = @TotalCount out, @Gender = 'Male'
 print @TotalCount
 
----?
+---protseduur valib kirjete arvu tabelis "Employees" ja määrab tulemuse "@TotalCount" väljundparameetrile.
 create proc spTotalCount2
 @TotalCount int output
 as begin
@@ -342,7 +342,7 @@ declare @TotalEmployees int
 execute spTotalCount2 @TotalEmployees output
 select @TotalEmployees
 
---- ?
+---Protseduur valib tabelist "Employees" veeru "Eesnimi" väärtuse, kus veerg "Id" vastab sisendparameetri "@Id" väärtusele, ja määrab tulemuse väljundparameetrile "@FirstName".
 create proc spGetNameById1
 @Id int,
 @FirstName nvarchar(50) output
@@ -350,21 +350,21 @@ as begin
 	select @FirstName = FirstName from employees where Id = @Id
 end
 
---?
+---Protseduur valib tabelist "Employees" väärtuse "Eesnimi", kus veerg "Id" vastab sisendparameetri "@Id=6" väärtusele, ja määrab tulemuse väljundparameetrile "@FirstName".
 declare @FirstName nvarchar(50)
 execute spGetNameById1 6, @FirstName output
 print 'Name of the employee = ' + @FirstName
 
---?
-create proc spGetNameById2
+--Protseduur valib tabelist "Employees" veeru "Eesnimi" väärtuse, kus veerg "Id" vastab sisendparameetri "@Id" väärtusele, ja tagastab tulemuse skalaarväärtusena.
+create proc spGetNameById3
 @Id int
 as begin
-	return (select FirstName from Employees where Id = @Id)
+	select FirstName from Employees where Id = @Id
 end
 
--- ?
+-- ?valib tabelist "Employees", töötaja kelle id=6
 declare @EmployeeName nvarchar(50)
-exec @EmployeeName = spGetNameById2 1
+exec @EmployeeName = spGetNameById3 6
 print 'Name of the employee = ' + @EmployeeName
 
 select * from Employees
