@@ -4,7 +4,7 @@ create database Targv22
 --db kustutamine
 DRop DataBASE Targv22
 
---tabeli loomine
+--tabeli loo
 create table Gender
 (
 Id int NOT NULL primary key,
