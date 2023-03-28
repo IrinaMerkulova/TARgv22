@@ -222,12 +222,12 @@ values (10, 'Russell', 'Male', 8800, NULL)
 
 select * from Employees
 
----?
+---naitab nimni ja DepartmentId
 select distinct Name, DepartmentId from Employees
 
----?
+---arvutab summeritud Salary
 select sum(cast(Salary as int)) from Employees
----?
+---Leiab vaiksemat Salary
 select min(cast(Salary as int)) from Employees
 
 
