@@ -219,9 +219,9 @@ select * from Employees
 ---valib ainulaadsed töötaja nimed ja osakondade identifikaatorid tabelist Employees
 select distinct Name, DepartmentId from Employees
 
----?
+---valib tabelist Employees kõik palgaväärtused, teisendab need täisarvudeks funktsiooni CAST abil, seejärel liidab need kokku ja tagastab tulemuse summana
 select sum(cast(Salary as int)) from Employees
----?
+---samasugune aga ei tee summa aga näitab minimumi
 select min(cast(Salary as int)) from Employees
 
 
