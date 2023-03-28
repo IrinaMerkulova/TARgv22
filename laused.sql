@@ -177,7 +177,7 @@ Salary nvarchar(50),
 DepartmentId int
 )
 
---?
+--lisame andmed tebelitesse
 insert into Department (Id, DepartmentName, Location, DepartmentHead)
 values (1, 'IT', 'London', 'Rick')
 insert into Department (Id, DepartmentName, Location, DepartmentHead)
@@ -212,15 +212,15 @@ values (10, 'Russell', 'Male', 8800, NULL)
 
 select * from Employees
 
----?
+---Valime unikaalsed read veergudest
 select distinct Name, DepartmentId from Employees
 
----?
+---Kõikide töötajate palga summa
 select sum(cast(Salary as int)) from Employees
----?
+---Valime kõige väksema palka
 select min(cast(Salary as int)) from Employees
 
-
+-- lisame veergu city
 alter table Employees
 add City nvarchar(25)
 
@@ -230,7 +230,10 @@ add DepartmentId
 int null
 
 
---?
+--Lisame kolm uut veergu ja uuendame/lisame sinna info
+alter table Employees
+add FirstName nvarchar(30)
+
 alter table Employees
 add MiddleName nvarchar(30)
 
@@ -260,11 +263,10 @@ where Id = 10
 
 
 --- igast reast võtab esimeses veerus täidetud lahtri ja kuvab ainult seda
-select Id, coalesce(FirstName, MiddleName, LastName) as Name
+select Id, concat(FirstName,' ', MiddleName,' ',LastName) as Name
 from Employees
 
 select * from Employees
-select * from Department
 
 
 
@@ -276,17 +278,17 @@ as begin
 	select FirstName, Gender from Employees
 end
 
-spGetEmployees
 exec spGetEmployees
 execute spGetEmployees
 
---- 
+--- Teeme protseduuri mis tagastab kasutajaga sisestatud info.
 create proc spGetEmployeesByGenderAndDepartment
 @Gender nvarchar(20),
 @DepartmentId int
 as begin
-	select FirstName, Gender, DepartmentId from Employees where Gender = @Gender
-	and DepartmentId = @DepartmentId
+	select FirstName, Gender, DepartmentId 
+	from Employees 
+	where Gender = @Gender and DepartmentId = @DepartmentId
 end
 
 --- kõik esimeses osakonnas meessoost töötavad isikud
@@ -296,7 +298,7 @@ spGetEmployeesByGenderAndDepartment @DepartmentId =  1, @Gender = 'Male'
 
 
 
---?
+--Teeme protseduuri mis tagastab töötajate arv sisestatud suguga.
 create proc spGetEmployeeCountByGender
 @Gender nvarchar(20),
 @EmployeeCount int output
@@ -318,7 +320,7 @@ declare @TotalCount int
 exec spGetEmployeeCountByGender @EmployeeCount = @TotalCount out, @Gender = 'Male'
 print @TotalCount
 
----?
+---Protseduur mis tagastab töötajate arvu
 create proc spTotalCount2
 @TotalCount int output
 as begin
@@ -329,7 +331,7 @@ declare @TotalEmployees int
 execute spTotalCount2 @TotalEmployees output
 select @TotalEmployees
 
---- ?
+--- Protseduur mis tagastab töötajate nimi ID kaudu
 create proc spGetNameById1
 @Id int,
 @FirstName nvarchar(50) output
@@ -337,19 +339,19 @@ as begin
 	select @FirstName = FirstName from employees where Id = @Id
 end
 
---?
+--protseduuri käivimine
 declare @FirstName nvarchar(50)
 execute spGetNameById1 6, @FirstName output
 print 'Name of the employee = ' + @FirstName
 
---?
+--Protseduur ei toimi
 create proc spGetNameById2
 @Id int
 as begin
 	return (select FirstName from Employees where Id = @Id)
 end
 
--- ?
+-- protseduuri käivitamine
 declare @EmployeeName nvarchar(50)
 exec @EmployeeName = spGetNameById2 1
 print 'Name of the employee = ' + @EmployeeName
