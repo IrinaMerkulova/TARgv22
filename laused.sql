@@ -109,6 +109,10 @@ select * from Person where City = 'Gotham'
 select * from Person where City <> 'Gotham'
 select * from Person where City != 'Gotham'
 
+--andmete lisamine Age Update Kaudu
+update Person set Age =100;
+update Person set age =80 Where Id=4 or Id=1;
+
 -- näitab teatud vanusega inimesi
 select *from Person where Age = 100 or 
 Age = 50 or Age = 20
@@ -128,9 +132,9 @@ select * from Person where Email not like '%@%'
 -- ainult üks täht
 select * from Person where Email like '_@_.com'
 
---?
+-- näitab kõiki, kus nimi ei alga W A või S
 select * from Person where Name like '[^WAS]%'
---- ?
+---  näitab kõiki, kus city on "Gotham" või "New York" ja age > 40
 select * from Person where (City = 'Gotham' or City = 'New York')
 and Age >= 40
 
@@ -143,11 +147,11 @@ select top 3 Age, Name from Person
 
 --- näitab esimesed 50% tabelis
 select top 50 percent * from Person
---?
+-- NÄITAB kõiki, ja sortimine age kaudu, desc and asc
 select * from Person order by cast(Age as int)
 select * from Person order by Age
 
---?
+-- näitab summa age kauda
 select sum(cast(Age as int)) from Person
 
 --- kuvab kõige nooremat isikut
