@@ -11,6 +11,7 @@ Id int NOT NULL primary key,
 Gender nvarchar(10) not null
 )
 
+-- tabeli Person loomine
 create table Person
 (
 Id int not null primary key,
@@ -19,13 +20,13 @@ Email nvarchar(30),
 GenderId int
 )
 
---- andmete sisestamine tabelisse
+--- andmete sisestamine Gender tabelisse
 insert into Gender (Id, Gender)
 values (1, 'Female')
 insert into Gender (Id, Gender)
 values (2, 'Male')
 
---- ?
+--- tabeli muutmine piirangu lisamine - foreign key
 alter table Person add constraint tblPerson_GenderId_FK
 foreign key (GenderId) references Gender(Id)
 
@@ -55,11 +56,11 @@ drop constraint tblPerson_GenderId_FK
 -- sisestame väärtuse tabelisse
 insert into Gender (Id, Gender)
 values (3, 'Unknown')
+
 -- lisame võõrvõtme uuesti
 alter table Person
 add constraint DF_Person_GenderId
 default 3 for GenderId
-
 
 ---- 2 tund
 
@@ -78,14 +79,15 @@ update Person
 set Age = 149
 where Id = 8
 
---?
+-- add constraint to check a valid age for entry > 0 and < 150, other values will fail
 alter table Person
 add constraint CK_Person_Age check (Age > 0 and Age < 150)
 
+-- The INSERT statement conflicted with the CHECK constraint "CK_Person_Age". The conflict occurred in database "Targv22", table "dbo.Person", column 'Age'.
 insert into Person (Id, Name, Email, GenderId, Age)
 values (9, 'Test', 'Test', 2, 160)
 
---?
+-- shows all data from table Person, then delete entry with Id = 8, then shows all data again
 select * from Person
 go
 delete from Person where Id = 8
