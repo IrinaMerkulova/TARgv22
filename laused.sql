@@ -249,6 +249,9 @@ add MiddleName nvarchar(30)
 alter table Employees
 add LastName nvarchar(30)
 
+alter table Employees
+add FirstName nvarchar(30)
+
 select * from Employees
 update Employees set FirstName = 'Tom', MiddleName = 'Nick', LastName = 'Jones'
 where Id = 1
@@ -278,9 +281,6 @@ from Employees
 
 select * from Employees
 select * from Department
-
-
-
 
 
 --- loome stored procedure, mis kuvab vaate
