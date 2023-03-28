@@ -162,31 +162,49 @@ select * from EmployeeTrigger
 select * from EmployeeAudit
 
 --Depertment tabeli koostamine ja sellesse andmete lisamine 
-create table Department
+create table Department2
 (
 Id int primary key,
 DeptName nvarchar(20)
 )
 
-insert into Department values(1, 'IT')
-insert into Department values(2, 'Payroll')
-insert into Department values(3, 'HR')
-insert into Department values(4, 'Admin')
+insert into Department2(Id, DeptName) values(1, 'IT')
+insert into Department2(Id, DeptName) values(2, 'Payroll')
+insert into Department2(Id, DeptName) values(3, 'HR')
+insert into Department2(Id, DeptName) values(4, 'Admin')
 
 
--- enne triggeri tegemist tuleb teha vaade?/panin salary, mitte DeptName
-create view EmployeeDetails
+-- enne triggeri tegemist tuleb teha vaade?
+create view vEmployeeDetails2
 as
-select EmployeeTrigger.Id, Name, Gender, Salary
+select EmployeeTrigger.Id, Name, Gender, DeptName
 from EmployeeTrigger
-join Department
-on EmployeeTrigger.DepartmentId = Department.Id
+join Department2
+on EmployeeTrigger.DepartmentId = DepartmentId
 
+--view 3
+--vead employeetrigger.id/department(2).id/department(2)
+create view vEmployeeDetails3
+as
+select EmployeeTrigger.Id, Name, Gender, DeptName, Salary
+from EmployeeTrigger
+join Department2
+on EmployeeTrigger.Id = Department2.Id
+
+--view 3
+--vead employeetrigger.id/department(2).id/department(2)
+create view vEmployeeDetails4
+as
+select EmployeeTrigger.Id, Name, Gender, DeptName, Salary
+from EmployeeTrigger
+join Department2
+on EmployeeTrigger.Id = Department2.Id
 
 
 ---- instead of insert trigger
+-- Invalid column name 'Salary'.//
 create trigger trEmployeeDetailsInsteadOfInsert
-on vEmployeeDetails
+on vEmployeeDetails4
 instead of insert
 as begin
 	declare @DeptId int
@@ -194,7 +212,7 @@ as begin
 	select @DeptId = Department.Id
 	from Department 
 	join inserted
-	on inserted.DeptName = Department.DeptName
+	on inserted.Salary = Department.Salary
 
 	if(@DeptId is null)
 	begin
@@ -212,7 +230,8 @@ end
 -- esimene parameeter on veateate sisu, teiene on veatase (nr 16 tähendab üldiseid vigu),
 -- kolmas on veaolek
 
-insert into vEmployeeDetails values(7, 'Valarie', 'Female', 'assd')
+--is not updatable because the modification affects multiple base tables
+insert into vEmployeeDetails4 values(7, 'Valarie', 'Female', '787')
 
 delete from EmployeeTrigger where Id = 7
 --- 10 tund SQL
@@ -232,7 +251,7 @@ from EmployeeTrigger
 join Department
 on EmployeeTrigger.DepartmentId = Department.Id
 
-select * from vEmployeeDetailsUpdate
+select * from vEmployeeDetails
 update EmployeeTrigger set DepartmentId = 4
 where Id = 4
 
