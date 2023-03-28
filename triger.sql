@@ -88,8 +88,8 @@ update EmployeeTrigger set Name = 'Todd', Salary = 2345,
 Gender = 'Male' where Id = 4
 
 
---- ?
-create trigger trEmployeeForUpdate
+--loome trigger mis jalgib muudatusi
+create trigger trEmployeeForUpdate2
 on EmployeeTrigger
 for update
 as begin
@@ -160,17 +160,17 @@ where Id = 4
 select * from EmployeeTrigger
 select * from EmployeeAudit
 
---?
-create table Department
+--loome tabeli
+create table Department2
 (
 Id int primary key,
 DeptName nvarchar(20)
 )
 
-insert into Department values(1, 'IT')
-insert into Department values(2, 'Payroll')
-insert into Department values(3, 'HR')
-insert into Department values(4, 'Admin')
+insert into Department2 values(1, 'IT')
+insert into Department2 values(2, 'Payroll')
+insert into Department2 values(3, 'HR')
+insert into Department2 values(4, 'Admin')
 
 
 -- enne triggeri tegemist tuleb teha vaade?
@@ -178,8 +178,8 @@ create view vEmployeeDetails
 as
 select EmployeeTrigger.Id, Name, Gender, DeptName
 from EmployeeTrigger
-join Department
-on EmployeeTrigger.DepartmentId = Department.Id
+join Department2
+on EmployeeTrigger.DepartmentId = Department2.Id
 
 
 
@@ -190,10 +190,10 @@ instead of insert
 as begin
 	declare @DeptId int
 
-	select @DeptId = Department.Id
-	from Department 
+	select @DeptId = Department2.Id
+	from Department2 
 	join inserted
-	on inserted.DeptName = Department.DeptName
+	on inserted.DeptName = Department2.DeptName
 
 	if(@DeptId is null)
 	begin
