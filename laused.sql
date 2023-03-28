@@ -309,7 +309,7 @@ spGetEmployeesByGenderAndDepartment @DepartmentId =  1, @Gender = 'Male'
 
 
 
---?
+--Protseduur valib tabelis "Töötajad" kirjete arvu, kus veerg "Sugu" vastab sisendparameetri "@Gender" väärtusele, ja määrab tulemuse väljundparameetrile "@EmployeeCount".
 create proc spGetEmployeeCountByGender
 @Gender nvarchar(20),
 @EmployeeCount int output
