@@ -281,16 +281,17 @@ select * from Department
 
 
 --- loome stored procedure, mis kuvab vaate
-create procedure spGetEmployees
-as begin
+create procedure spGetEmployees 
+As 
+begin
 	select FirstName, Gender from Employees
 end
 
-spGetEmployees
-exec spGetEmployees
-execute spGetEmployees
+EXEC spGetEmployees
+EXECUTE spGetEmployees
 
---- 
+
+--- создаем хранимую процедуру, которая выполняет выборку данных из таблицы Employees, отбирая только те записи, у которых значение столбца Gender равно значению параметра @Gender, и значение столбца DepartmentId равно значению параметра @DepartmentId.
 create proc spGetEmployeesByGenderAndDepartment
 @Gender nvarchar(20),
 @DepartmentId int
@@ -300,9 +301,10 @@ as begin
 end
 
 --- kõik esimeses osakonnas meessoost töötavad isikud
-spGetEmployeesByGenderAndDepartment 'Male', 1
+EXEC spGetEmployeesByGenderAndDepartment 'Male', 1
 
-spGetEmployeesByGenderAndDepartment @DepartmentId =  1, @Gender = 'Male'
+EXECUTE spGetEmployeesByGenderAndDepartment @DepartmentId = 1, @Gender = 'Male'
+
 
 
 
