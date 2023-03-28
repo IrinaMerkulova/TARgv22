@@ -284,7 +284,7 @@ spGetEmployees
 exec spGetEmployees
 execute spGetEmployees
 
---- 
+-- Loome Protseduuri mis kuvab nimed sugu jargi
 create proc spGetEmployeesByGenderAndDepartment
 @Gender nvarchar(20),
 @DepartmentId int
@@ -300,7 +300,7 @@ spGetEmployeesByGenderAndDepartment @DepartmentId =  1, @Gender = 'Male'
 
 
 
---?
+--Loome protseduuri mis loeb inimesi sugu jargi
 create proc spGetEmployeeCountByGender
 @Gender nvarchar(20),
 @EmployeeCount int output
@@ -322,7 +322,7 @@ declare @TotalCount int
 exec spGetEmployeeCountByGender @EmployeeCount = @TotalCount out, @Gender = 'Male'
 print @TotalCount
 
----?
+---Loome protseduuri mis loeb kokku tootajaid
 create proc spTotalCount2
 @TotalCount int output
 as begin
@@ -333,7 +333,7 @@ declare @TotalEmployees int
 execute spTotalCount2 @TotalEmployees output
 select @TotalEmployees
 
---- ?
+--- loome protseduuri mis kuvab nime id jargi
 create proc spGetNameById1
 @Id int,
 @FirstName nvarchar(50) output
@@ -341,19 +341,19 @@ as begin
 	select @FirstName = FirstName from employees where Id = @Id
 end
 
---?
+--kavitame sp
 declare @FirstName nvarchar(50)
 execute spGetNameById1 6, @FirstName output
 print 'Name of the employee = ' + @FirstName
 
---?
+--loome protseduuri mis kuvab nime id jargi
 create proc spGetNameById2
 @Id int
 as begin
 	return (select FirstName from Employees where Id = @Id)
 end
 
--- ?
+-- kavitame sp
 declare @EmployeeName nvarchar(50)
 exec @EmployeeName = spGetNameById2 1
 print 'Name of the employee = ' + @EmployeeName
