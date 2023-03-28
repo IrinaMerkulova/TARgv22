@@ -55,7 +55,7 @@ insert into EmployeeTrigger values(7, 'Jimmy', 1800, 'Male', 3)
 
 select * from EmployeeAudit
 
---- ?
+--- trigger "DELETE" tabelis "EmployureTrigger
 create trigger EmployeeForDelete
 on EmployeeTrigger
 for delete
@@ -89,7 +89,7 @@ Gender = 'Male' where Id = 4
 
 
 --- ?
-create trigger trEmployeeForUpdate
+create trigger trEmployeeForUpdate2
 on EmployeeTrigger
 for update
 as begin
@@ -161,7 +161,7 @@ select * from EmployeeTrigger
 select * from EmployeeAudit
 
 --?
-create table Department
+create table Department2
 (
 Id int primary key,
 DeptName nvarchar(20)
@@ -178,8 +178,8 @@ create view vEmployeeDetails
 as
 select EmployeeTrigger.Id, Name, Gender, DeptName
 from EmployeeTrigger
-join Department
-on EmployeeTrigger.DepartmentId = Department.Id
+join Department2
+on EmployeeTrigger.DepartmentId = Department2.Id
 
 
 
@@ -190,10 +190,10 @@ instead of insert
 as begin
 	declare @DeptId int
 
-	select @DeptId = Department.Id
-	from Department 
+	select @DeptId = Department2.Id
+	from Department2 
 	join inserted
-	on inserted.DeptName = Department.DeptName
+	on inserted.DeptName = Department2.DeptName
 
 	if(@DeptId is null)
 	begin
@@ -201,7 +201,7 @@ as begin
 		return
 	end
 
-	insert into EmployeeTrigger(Id, Name, Gender, DepartmentId)
+	insert into EmployeeTrigger(Id, Name, Gender, Department2Id)
 	select Id, Name, Gender, @DeptId
 	from inserted
 end
@@ -228,8 +228,8 @@ alter view vEmployeeDetailsUpdate
 as
 select EmployeeTrigger.Id, Name, Salary, Gender, DeptName
 from EmployeeTrigger
-join Department
-on EmployeeTrigger.DepartmentId = Department.Id
+join Department2
+on EmployeeTrigger.DepartmentId = Department2.Id
 
 select * from vEmployeeDetailsUpdate
 update EmployeeTrigger set DepartmentId = 4
@@ -249,10 +249,10 @@ as begin
 	if(UPDATE(DeptName))
 	begin
 		declare @DeptId int
-		select @DeptId = Department.Id
-		from Department
+		select @DeptId = Department2.Id
+		from Department2
 		join inserted
-		on inserted.DeptName = Department.DeptName
+		on inserted.DeptName = Department2.DeptName
 
 		if(@DeptId is null)
 		begin
@@ -260,7 +260,7 @@ as begin
 			return
 		end
 
-		update EmployeeTrigger set DepartmentId = @DeptId
+		update EmployeeTrigger set Department2Id = @DeptId
 		from inserted
 		join EmployeeTrigger
 		on EmployeeTrigger.Id = inserted.Id
