@@ -146,11 +146,11 @@ select top 3 Age, Name from Person
 
 --- näitab esimesed 50% tabelis
 select top 50 percent * from Person
---?
+--andmete sorteerimine ja преобразование значение этого столбца к целочисленному типу с помощью функции CAST
 select * from Person order by cast(Age as int)
 select * from Person order by Age
 
---?
+--summeerib Age ja преобразовывает его в целочисленный тип
 select sum(cast(Age as int)) from Person
 
 --- kuvab kõige nooremat isikut
