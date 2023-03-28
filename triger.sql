@@ -22,7 +22,7 @@ Gender nvarchar(10),
 DepartmentId int
 )
 
--- ?
+-- paneb andmed EmployeeTrigger tabelisse
 insert into EmployeeTrigger values(1, 'John', 5000, 'Male', 3)
 insert into EmployeeTrigger values(2, 'Mike', 3400, 'Male', 2)
 insert into EmployeeTrigger values(3, 'Pam', 6000, 'Female', 1)
@@ -38,7 +38,8 @@ AuditData nvarchar(1000)
 
 
 
---?
+-- Loomine käivitusel tr_Employee_ForInsert, mis jälgib töötajate tabelisse lisamist ja 
+--lisab vastava teate EmployeeAudit tabelisse. Töötaja lisamiseks kasutatakse sisetabelit inserted.
 create trigger tr_Employee_ForInsert
 on EmployeeTrigger
 for insert
@@ -55,7 +56,7 @@ insert into EmployeeTrigger values(7, 'Jimmy', 1800, 'Male', 3)
 
 select * from EmployeeAudit
 
---- ?
+--- Kustutamis-päästik, mis jälgib töötajate kustutamist ja sisestab töötaja kustutamise sündmuse töötaja auditi tabelisse.
 create trigger EmployeeForDelete
 on EmployeeTrigger
 for delete
@@ -88,8 +89,8 @@ update EmployeeTrigger set Name = 'Todd', Salary = 2345,
 Gender = 'Male' where Id = 4
 
 
---- ?
-create trigger trEmployeeForUpdate
+--- viiakse läbi töötaja kirje uuendamine, mis põhjustab triggeri käivitumise ja ajaloo kirjete lisamise EmployeeAudit tabelisse
+create trigger trEmployeeForUpdatee
 on EmployeeTrigger
 for update
 as begin
@@ -160,7 +161,7 @@ where Id = 4
 select * from EmployeeTrigger
 select * from EmployeeAudit
 
---?
+--Depertment tabeli koostamine ja sellesse andmete lisamine 
 create table Department
 (
 Id int primary key,
@@ -173,10 +174,10 @@ insert into Department values(3, 'HR')
 insert into Department values(4, 'Admin')
 
 
--- enne triggeri tegemist tuleb teha vaade?
-create view vEmployeeDetails
+-- enne triggeri tegemist tuleb teha vaade?/panin salary, mitte DeptName
+create view EmployeeDetails
 as
-select EmployeeTrigger.Id, Name, Gender, DeptName
+select EmployeeTrigger.Id, Name, Gender, Salary
 from EmployeeTrigger
 join Department
 on EmployeeTrigger.DepartmentId = Department.Id
