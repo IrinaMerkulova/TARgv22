@@ -300,7 +300,7 @@ exec spGetEmployeesByGenderAndDepartment @DepartmentId =  1, @Gender = 'Male'
 
 
 
---?
+--protseduur mis valib töötajate arvu tabelist Employees, kus sugu vastab sisendparameetrile @Gender ja määrab selle arvu väljundparameetrile @EmployeeCount.
 create proc spGetEmployeeCountByGender
 @Gender nvarchar(20),
 @EmployeeCount int output
