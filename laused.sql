@@ -72,19 +72,19 @@ values (8, 'Test', 'Test')
 
 ---lisame uue veeru tabelisse
 alter table Person
-add Age nvarchar(10)
+add Age varchar(10)
 
 --uuendame andmeid
 update Person
 set Age = 149
 where Id = 8
 
---?
+--Piirangu loomine
 alter table Person
 add constraint CK_Person_Age check (Age > 0 and Age < 150)
 
 insert into Person (Id, Name, Email, GenderId, Age)
-values (9, 'Test', 'Test', 2, 160)
+values (9, 'Test', 'Test', 2, 140)
 
 --?
 select * from Person
