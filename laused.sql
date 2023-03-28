@@ -54,7 +54,8 @@ drop constraint tblPerson_GenderId_FK
 
 -- sisestame väärtuse tabelisse
 insert into Gender (Id, Gender)
-values (3, 'Unknown')
+values (3, 'Unknown');
+Select * from Gender;
 -- lisame võõrvõtme uuesti
 alter table Person
 add constraint DF_Person_GenderId
