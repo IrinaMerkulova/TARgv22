@@ -263,8 +263,8 @@ update Employees set Name = NULL, MiddleName = NULL, LastName = 'Crowe'
 where Id = 10
 
 
---- igast reast võtab esimeses veerus täidetud lahtri ja kuvab ainult seda
-select Id, coalesce(FirstName, MiddleName, LastName) as Name
+--- igast reast võtab esimeses veerus täidetud lahtri ja kuvab ainult seda/FirstName->Name
+select Id, coalesce(Name, MiddleName, LastName) as Name
 from Employees
 
 select * from Employees
@@ -277,19 +277,19 @@ select * from Department
 --- loome stored procedure, mis kuvab vaate
 create procedure spGetEmployees
 as begin
-	select FirstName, Gender from Employees
+	select Name, Gender from Employees
 end
 
 spGetEmployees
 exec spGetEmployees
 execute spGetEmployees
 
---- 
+--- loome procedure, mis valib töötaja nime, soo ja osakonna identifikaatori tabelist Employees, kus sugu ja osakonna identifikaator vastavad vastavatele parameetritele
 create proc spGetEmployeesByGenderAndDepartment
 @Gender nvarchar(20),
 @DepartmentId int
 as begin
-	select FirstName, Gender, DepartmentId from Employees where Gender = @Gender
+	select Name, Gender, DepartmentId from Employees where Gender = @Gender
 	and DepartmentId = @DepartmentId
 end
 
