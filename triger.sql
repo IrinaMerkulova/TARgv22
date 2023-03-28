@@ -222,6 +222,13 @@ update vEmployeeDetails
 set DeptName = 'Payroll'
 where Id = 2
 
+--kõigepealt peate looma
+CREATE VIEW vEmployeeDetailsUpdate AS
+SELECT EmployeeTrigger.Id, Name, Salary, Gender, DeptName
+FROM EmployeeTrigger
+JOIN Department2 ON EmployeeTrigger.DepartmentId = Department2.Id
+
+
 --- teeme vaate
 alter view vEmployeeDetailsUpdate
 as
