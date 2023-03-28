@@ -136,9 +136,9 @@ select * from Person where Email not like '%@%'
 -- ainult üks täht
 select * from Person where Email like '_@_.com'
 
---?
+--näitab kõik sõnad milles on keskel asuvad järgmised tähed sama järjekorras
 select * from Person where Name like '[^WAS]%'
---- ?
+--- näitab tulemus järgmistel tingimustel
 select * from Person where (City = 'Gotham' or City = 'New York')
 and Age >= 40
 
@@ -151,18 +151,18 @@ select top 3 Age, Name from Person
 
 --- näitab esimesed 50% tabelis
 select top 50 percent * from Person
---?
+---sorteerib Age veeru järgi
 select * from Person order by cast(Age as int)
 select * from Person order by Age
 
---?
+---Summa ja tulemusi konverteerimine Age nagu integer datatype
 select sum(cast(Age as int)) from Person
 
 --- kuvab kõige nooremat isikut
 select min(cast(Age as int)) from Person
 --- kõige vanem isik
 select max(cast(Age as int)) from Person
-
+---näitab ja sorteerib tulemusi peale matemaatilise tehingu City järgi
 select City, sum(cast(Age as int)) as TotalAge from Person group by City
 
 
