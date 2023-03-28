@@ -70,11 +70,11 @@ select * from Gender
 insert into Person (Id, Name, Email)
 values (8, 'Test', 'Test')
 
----lisame uue veeru tabelise
+---lisame uue veeru tabelisse
 alter table Person
 add Age nvarchar(10)
 
---uuendame andmeid
+--uuendame andmeidd
 update Person
 set Age = 149
 where Id = 8
