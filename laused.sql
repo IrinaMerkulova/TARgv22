@@ -274,6 +274,10 @@ where Id = 9
 update Employees set FirstName = NULL, MiddleName = NULL, LastName = 'Crowe'
 where Id = 10
 
+alter table Employees
+drop column Name;
+select * from Employees
+
 
 --- igast reast võtab esimeses veerus täidetud lahtri ja kuvab ainult seda
 select Id, coalesce(FirstName, MiddleName, LastName) as Name
