@@ -237,8 +237,8 @@ select * from vEmployeeDetailsUpdate
 update EmployeeTrigger set DepartmentId = 4
 where Id = 4
 
---- ?
-alter trigger trEmployeeDetailsInsteadOfUpdate
+--loome triger mis jälgib totaja andmed mutmine id järgi
+create trigger trEmployeeDetailsInsteadOfUpdate
 on vEmployeeDetailsUpdate
 instead of update
 as begin
@@ -251,10 +251,10 @@ as begin
 	if(UPDATE(DeptName))
 	begin
 		declare @DeptId int
-		select @DeptId = Department.Id
-		from Department
+		select @DeptId = Department2.Id
+		from Department2
 		join inserted
-		on inserted.DeptName = Department.DeptName
+		on inserted.DeptName = Department2.DeptName
 
 		if(@DeptId is null)
 		begin
@@ -300,7 +300,7 @@ set Name = 'Johny', Gender = 'Female', DeptName = 'IT'
 where Id = 1
 
 
---- ?
+--- loome triger mis jälgib kustutatud andmed Id järgi
 
 create trigger trEmployeeDetails_InsteadOfDelete
 on vEmployeeDetails
@@ -314,3 +314,5 @@ end
 
 delete from vEmployeeDetails where Id = 2
 --- kui seda triggerit ei oleks, siis annaks veateate
+
+select * from EmployeeAudit
