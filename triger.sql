@@ -183,7 +183,6 @@ join Department2
 on EmployeeTrigger.DepartmentId = Department2.Id
 
 
-
 ---- instead of insert trigger
 create trigger trEmployeeDetailsInsteadOfInsert
 on vEmployeeDetails
@@ -211,6 +210,7 @@ end
 -- ja ei ühti sisestatud väärtusega
 -- esimene parameeter on veateate sisu, teiene on veatase (nr 16 tähendab üldiseid vigu),
 -- kolmas on veaolek
+select * from vEmployeeDetails
 
 insert into vEmployeeDetails values(7, 'Valarie', 'Female', 'assd')
 
@@ -224,13 +224,14 @@ update vEmployeeDetails
 set DeptName = 'Payroll'
 where Id = 2
 
+
 --- teeme vaate
-alter view vEmployeeDetailsUpdate
-as
-select EmployeeTrigger.Id, Name, Salary, Gender, DeptName
-from EmployeeTrigger
-join Department
-on EmployeeTrigger.DepartmentId = Department.Id
+CREATE VIEW vEmployeeDetailsUpdate
+AS
+SELECT EmployeeTrigger.Id, Name, Salary, Gender, DeptName
+FROM EmployeeTrigger
+JOIN Department2 
+ON EmployeeTrigger.DepartmentId = Department2.Id
 
 select * from vEmployeeDetailsUpdate
 update EmployeeTrigger set DepartmentId = 4
