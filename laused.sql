@@ -233,20 +233,23 @@ select min(cast(Salary as int)) from Employees
 
 alter table Employees
 add City nvarchar(25)
+select * from Employees
 
-
+--ei saa kaivitada DepartmentId on juba olemas 
 alter table Employees
 add DepartmentId
 int null
 
 
---?
+--Lisatud MiddleName and LastName column
 alter table Employees
 add MiddleName nvarchar(30)
+
 
 alter table Employees
 add LastName nvarchar(30)
 
+select * from Employees
 update Employees set FirstName = 'Tom', MiddleName = 'Nick', LastName = 'Jones'
 where Id = 1
 update Employees set FirstName = 'Pam', MiddleName = NULL, LastName = 'Anderson'
