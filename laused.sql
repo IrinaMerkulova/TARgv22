@@ -272,7 +272,7 @@ select * from Department
 
 
 
---- loome stored procedure, mis kuvab vaatee
+--- loome stored procedure, mis kuvab vaate
 create procedure spGetEmployees
 as begin
 	select FirstName, Gender from Employees
@@ -282,7 +282,7 @@ spGetEmployees
 exec spGetEmployees
 execute spGetEmployees
 
---- 
+--- Protseduur võtab kaks sisendparameetrit: "Gender" tüüpi "nvarchar(20)" ja "DepartureId" tüüpi "int". Neid valikuid kasutatakse tulemuste filtreerimiseks
 create proc spGetEmployeesByGenderAndDepartment
 @Gender nvarchar(20),
 @DepartmentId int
