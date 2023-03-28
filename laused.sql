@@ -86,67 +86,84 @@ add constraint CK_Person_Age check (Age > 0 and Age < 150)
 insert into Person (Id, Name, Email, GenderId, Age)
 values (9, 'Test', 'Test', 2, 160)
 
---?
+-- 15 Siin me kustutame isiku tabelist Person kelle ID on 8
 select * from Person
 go
 delete from Person where Id = 8
 go
 select * from Person
 
---- lisame veeru juurde
+--- 16 lisame veeru juurde
 alter table Person
 add City nvarchar(25)
 
--- tahame tead kõiki, kes elavad Gothami linnas 
+
+--17andmete lisamine city UPDATE kaudu
+UPDATE Person set City = 'Gotham';
+UPDATE Person set City = 'Tartu' where Id=2;
+UPDATE Person set City = 'Miami' where Id=3;
+
+
+--18tahame tead kõiki, kes elavad Gothami linnas
 select * from Person where City = 'Gotham'
--- kõik, kes ei ela Gothamis
+--19kõik, kes ei ela Gothamis
 select * from Person where City <> 'Gotham'
 select * from Person where City != 'Gotham'
 
--- näitab teatud vanusega inimesi
+
+--19andmete lisamine city UPDATE kaudu
+UPDATE Person set Age = '20';
+UPDATE Person set Age = '50' where Id=2;
+UPDATE Person set Age = '120' where Id=3;
+
+
+--20 näitab teatud vanusega inimesi
 select *from Person where Age = 100 or 
 Age = 50 or Age = 20
 select * from Person where Age in (100, 50, 20)
 
---- näitab teatud vanusevahemikus olevaid inimesi
+
+--- 21näitab teatud vanusevahemikus olevaid inimesi
 select * from Person where Age between 30 and 50
 
---- wildcard e näitab kõik g-tähega linnad
+---22 wildcard e näitab kõik g-tähega linnad
 select * from Person where City like 'n%'
 select * from Person where Email like '%@%'
 
--- n'itab kõiki, kellel ei ole @-märki emailis
+--23 n'itab kõiki, kellel ei ole @-märki emailis
 select * from Person where Email not like '%@%'
 
---- näitab, kelle on emailis ees ja peale @-märki
+--- 24näitab, kelle on emailis ees ja peale @-märki
 -- ainult üks täht
 select * from Person where Email like '_@_.com'
 
---?
+--25 näitab kus nimed ei alaga W, A, S
 select * from Person where Name like '[^WAS]%'
---- ?
+
+--- 26 näitab inimed kes elvada gothamis või newyorkis ja vanus on rohkem kui 40 või 40
 select * from Person where (City = 'Gotham' or City = 'New York')
 and Age >= 40
 
----võtab kolm esimest rida
+---27võtab kolm esimest rida
 select top 3 * from Person
 
---- kolm esimest, aga tabeli järjestus on Age ja siis Name
+--- 28kolm esimest, aga tabeli järjestus on Age ja siis Name
 select * from Person
 select top 3 Age, Name from Person
 
---- näitab esimesed 50% tabelis
+--- 29 näitab esimesed 50% tabelis
 select top 50 percent * from Person
---?
+
+--30  Sorteerib inimesi AGE järgi, AGE kasvab
 select * from Person order by cast(Age as int)
 select * from Person order by Age
 
---?
+--31 summa kõik AGEd
 select sum(cast(Age as int)) from Person
 
---- kuvab kõige nooremat isikut
+---32 kuvab kõige nooremat isikut
 select min(cast(Age as int)) from Person
---- kõige vanem isik
+---33 kõige vanem isik
 select max(cast(Age as int)) from Person
 
 select City, sum(cast(Age as int)) as TotalAge from Person group by City
