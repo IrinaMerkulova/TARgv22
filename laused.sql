@@ -237,7 +237,10 @@ ALTER COLUMN DepartmentId INT NULL;
 
 
 
---?
+--добавлены три новые столбца в таблицу employees и обновлены данные в самой таблице
+alter table Employees
+add FirstName nvarchar(30)
+
 alter table Employees
 add MiddleName nvarchar(30)
 
