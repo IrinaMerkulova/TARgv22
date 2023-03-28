@@ -235,9 +235,16 @@ add DepartmentId
 int null
 
 
+
+
 --uus veeru MiddleName loomine teise nimi lisamise eest
 alter table Employees
 add MiddleName nvarchar(30)
+
+
+--veeru FirstName loomine esimese nimi lisamise eest
+alter table Employees
+add FirstName nvarchar(30)
 
 alter table Employees
 add LastName nvarchar(30)
