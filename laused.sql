@@ -145,7 +145,7 @@ select * from Person order by Age
 --tagastab tabeli "Isik" veerus "Vanus" olevate väärtuste summa pärast nende teisendamist täisarvudeks.
 select sum(cast(Age as int)) from Person
 
---- kuvab kõige nooremat isikut
+--- kuvab kõige nooremat isikutt
 select min(cast(Age as int)) from Person
 --- kõige vanem isik
 select max(cast(Age as int)) from Person
