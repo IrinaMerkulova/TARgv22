@@ -79,14 +79,14 @@ update Person
 set Age = 149
 where Id = 8
 
---?
+--vanuse piirangu lisamine
 alter table Person
 add constraint CK_Person_Age check (Age > 0 and Age < 150)
-
+--vanuse muutmine
 insert into Person (Id, Name, Email, GenderId, Age)
-values (9, 'Test', 'Test', 2, 160)
+values (9, 'Test', 'Test', 2, 149)
 
---?
+--id8 kustutamine
 select * from Person
 go
 delete from Person where Id = 8
@@ -122,9 +122,9 @@ select * from Person where Email not like '%@%'
 -- ainult üks täht
 select * from Person where Email like '_@_.com'
 
---?
+--näitab, kelle nimed ei alga W, A või S tähega
 select * from Person where Name like '[^WAS]%'
---- ?
+--- näitab, kes elab Gotham või New York linnas ja vanem kui 40 või 40 aastat vana
 select * from Person where (City = 'Gotham' or City = 'New York')
 and Age >= 40
 
@@ -137,11 +137,11 @@ select top 3 Age, Name from Person
 
 --- näitab esimesed 50% tabelis
 select top 50 percent * from Person
---?
+--sorteerimine vanuse järgi
 select * from Person order by cast(Age as int)
 select * from Person order by Age
 
---?
+--vanuse summa
 select sum(cast(Age as int)) from Person
 
 --- kuvab kõige nooremat isikut
@@ -175,7 +175,7 @@ Salary nvarchar(50),
 DepartmentId int
 )
 
---?
+--andmete lisamine tabelisse Department ja Employees
 insert into Department (Id, DepartmentName, Location, DepartmentHead)
 values (1, 'IT', 'London', 'Rick')
 insert into Department (Id, DepartmentName, Location, DepartmentHead)
@@ -210,30 +210,33 @@ values (10, 'Russell', 'Male', 8800, NULL)
 
 select * from Employees
 
----?
+---näitab konkreetse andmete nimekirja
 select distinct Name, DepartmentId from Employees
 
----?
+---palgade summa
 select sum(cast(Salary as int)) from Employees
----?
+---näitab min palga
 select min(cast(Salary as int)) from Employees
 
 
 alter table Employees
 add City nvarchar(25)
 
-
+--muutsin DepartmentId --> DepId
 alter table Employees
-add DepartmentId
+add DepId
 int null
 
 
---?
+--uue veeru lisamine
 alter table Employees
 add MiddleName nvarchar(30)
 
 alter table Employees
 add LastName nvarchar(30)
+--FirstName lisamine
+alter table Employees
+add FirstName nvarchar(30)
 
 update Employees set FirstName = 'Tom', MiddleName = 'Nick', LastName = 'Jones'
 where Id = 1
@@ -278,7 +281,7 @@ spGetEmployees
 exec spGetEmployees
 execute spGetEmployees
 
---- 
+--- protseduuri loomine 
 create proc spGetEmployeesByGenderAndDepartment
 @Gender nvarchar(20),
 @DepartmentId int
@@ -294,7 +297,7 @@ spGetEmployeesByGenderAndDepartment @DepartmentId =  1, @Gender = 'Male'
 
 
 
---?
+--näitab, kui palju meest või nais tabelis Employees
 create proc spGetEmployeeCountByGender
 @Gender nvarchar(20),
 @EmployeeCount int output
@@ -316,7 +319,7 @@ declare @TotalCount int
 exec spGetEmployeeCountByGender @EmployeeCount = @TotalCount out, @Gender = 'Male'
 print @TotalCount
 
----?
+---näitab, mitu isikuid tabelis Employees
 create proc spTotalCount2
 @TotalCount int output
 as begin
@@ -327,7 +330,7 @@ declare @TotalEmployees int
 execute spTotalCount2 @TotalEmployees output
 select @TotalEmployees
 
---- ?
+--- näitab, nimi id järgi
 create proc spGetNameById1
 @Id int,
 @FirstName nvarchar(50) output
@@ -335,19 +338,19 @@ as begin
 	select @FirstName = FirstName from employees where Id = @Id
 end
 
---?
+-- käivitame sp
 declare @FirstName nvarchar(50)
 execute spGetNameById1 6, @FirstName output
 print 'Name of the employee = ' + @FirstName
 
---?
+--näitab, nimi id järgi
 create proc spGetNameById2
 @Id int
 as begin
 	return (select FirstName from Employees where Id = @Id)
 end
 
--- ?
+-- käivitame sp
 declare @EmployeeName nvarchar(50)
 exec @EmployeeName = spGetNameById2 1
 print 'Name of the employee = ' + @EmployeeName
