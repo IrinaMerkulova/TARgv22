@@ -179,7 +179,7 @@ DepartmentName nvarchar(50),
 Location nvarchar(50),
 DepartmentHead nvarchar(50)
 )
-
+---loome uued tabelid
 create table Employees
 (
 Id int primary key,
@@ -189,7 +189,7 @@ Salary nvarchar(50),
 DepartmentId int
 )
 
---?
+---sisestame uue väärtuse tabelisse 
 insert into Department (Id, DepartmentName, Location, DepartmentHead)
 values (1, 'IT', 'London', 'Rick')
 insert into Department (Id, DepartmentName, Location, DepartmentHead)
@@ -200,7 +200,7 @@ insert into Department (Id, DepartmentName, Location, DepartmentHead)
 values (4, 'Other Deparment', 'Sydney', 'Cindrella')
 
 select * from Department
-
+---sisestame uue väärtuse tabelisse
 insert into Employees (Id, Name, Gender, Salary, DepartmentId)
 values (1, 'Tom', 'Male', 4000, 1)
 insert into Employees (Id, Name, Gender, Salary, DepartmentId)
@@ -224,55 +224,50 @@ values (10, 'Russell', 'Male', 8800, NULL)
 
 select * from Employees
 
----?
+---näitab kõik (kustutades dubleeritud andmed)
 select distinct Name, DepartmentId from Employees
 
----?
+---Summa ja tulemusi konverteerimine Salary nagu integer datatype
 select sum(cast(Salary as int)) from Employees
----?
+---Miinimum ja tulemusi konverteerimine Salary nagu integer datatype
 select min(cast(Salary as int)) from Employees
 
-
+---lisame veeru juurde
 alter table Employees
 add City nvarchar(25)
 
-
+---lisame veeru juurde
 alter table Employees
-add DepartmentId
-int null
-
-
---?
-alter table Employees
-add MiddleName nvarchar(30)
-
+add FirstName nvarchar(30)
+---lisame veeru juurde
 alter table Employees
 add LastName nvarchar(30)
 
-update Employees set FirstName = 'Tom', MiddleName = 'Nick', LastName = 'Jones'
+---andmete lisamine Id UPDATE kaudu
+update Employees set FirstName = 'Tom',  LastName = 'Jones'
 where Id = 1
-update Employees set FirstName = 'Pam', MiddleName = NULL, LastName = 'Anderson'
+update Employees set FirstName = 'Pam',  LastName = 'Anderson'
 where Id = 2
-update Employees set FirstName = 'John', MiddleName = NULL, LastName = NULL
+update Employees set FirstName = 'John',  LastName = NULL
 where Id = 3
-update Employees set FirstName = 'Sam', MiddleName = NULL, LastName = 'Smith'
+update Employees set FirstName = 'Sam',  LastName = 'Smith'
 where Id = 4
-update Employees set FirstName = NULL, MiddleName = 'Todd', LastName = 'Someone'
+update Employees set FirstName = NULL,  LastName = 'Someone'
 where Id = 5
-update Employees set FirstName = 'Ben', MiddleName = 'Ten', LastName = 'Sven'
+update Employees set FirstName = 'Ben',  LastName = 'Sven'
 where Id = 6
-update Employees set FirstName = 'Sara', MiddleName = NULL, LastName = 'Connor'
+update Employees set FirstName = 'Sara',  LastName = 'Connor'
 where Id = 7
-update Employees set FirstName = 'Valarie', MiddleName = 'Balerine', LastName = NULL
+update Employees set FirstName = 'Valarie',  LastName = NULL
 where Id = 8
-update Employees set FirstName = 'James', MiddleName = '007', LastName = 'Bond'
+update Employees set FirstName = 'James',  LastName = 'Bond'
 where Id = 9
-update Employees set FirstName = NULL, MiddleName = NULL, LastName = 'Crowe'
+update Employees set FirstName = NULL,  LastName = 'Crowe'
 where Id = 10
 
 
 --- igast reast võtab esimeses veerus täidetud lahtri ja kuvab ainult seda
-select Id, coalesce(FirstName, MiddleName, LastName) as Name
+select Id, coalesce(FirstName, LastName) as Name
 from Employees
 
 select * from Employees
@@ -288,11 +283,12 @@ as begin
 	select FirstName, Gender from Employees
 end
 
-spGetEmployees
+---näitab tingimusi järgi järgmisi tulemusi --> FirstName ja teisel pool Gender
 exec spGetEmployees
 execute spGetEmployees
 
---- 
+---  loome stored procedure, mis otsib ja kuvab tabelisel--> Firstname -->Gender-->DepartmentId
+---kasutaja poolt on vaja teha päring , kus on vaja täpsustada niisugusi parameetrid nagu Gender ja DepartmentId
 create proc spGetEmployeesByGenderAndDepartment
 @Gender nvarchar(20),
 @DepartmentId int
@@ -301,14 +297,16 @@ as begin
 	and DepartmentId = @DepartmentId
 end
 
+exec spGetEmployeesByGenderAndDepartment Male, 2
+
 --- kõik esimeses osakonnas meessoost töötavad isikud
-spGetEmployeesByGenderAndDepartment 'Male', 1
+exec spGetEmployeesByGenderAndDepartment 'Male', 1
 
-spGetEmployeesByGenderAndDepartment @DepartmentId =  1, @Gender = 'Male'
+execute spGetEmployeesByGenderAndDepartment @DepartmentId =  1, @Gender = 'Male'
 
 
 
---?
+---loome stored procedure, mis kuvab vaate
 create proc spGetEmployeeCountByGender
 @Gender nvarchar(20),
 @EmployeeCount int output
@@ -330,7 +328,7 @@ declare @TotalCount int
 exec spGetEmployeeCountByGender @EmployeeCount = @TotalCount out, @Gender = 'Male'
 print @TotalCount
 
----?
+---loome stored procedure
 create proc spTotalCount2
 @TotalCount int output
 as begin
@@ -341,7 +339,7 @@ declare @TotalEmployees int
 execute spTotalCount2 @TotalEmployees output
 select @TotalEmployees
 
---- ?
+--- loome stored procedure
 create proc spGetNameById1
 @Id int,
 @FirstName nvarchar(50) output
@@ -349,19 +347,19 @@ as begin
 	select @FirstName = FirstName from employees where Id = @Id
 end
 
---?
+---käivitame sp
 declare @FirstName nvarchar(50)
 execute spGetNameById1 6, @FirstName output
 print 'Name of the employee = ' + @FirstName
 
---?
+--- loome stored procedure
 create proc spGetNameById2
 @Id int
 as begin
 	return (select FirstName from Employees where Id = @Id)
 end
 
--- ?
+---käivitame sp
 declare @EmployeeName nvarchar(50)
 exec @EmployeeName = spGetNameById2 1
 print 'Name of the employee = ' + @EmployeeName
