@@ -308,7 +308,7 @@ EXECUTE spGetEmployeesByGenderAndDepartment @DepartmentId = 1, @Gender = 'Male'
 
 
 
---?
+--создаем процедуру, в которой происходит выборка количества сотрудников из таблицы Employees, у которых пол равен значению параметра @Gender. Затем это количество записывается в переменную @EmployeeCount.
 create proc spGetEmployeeCountByGender
 @Gender nvarchar(20),
 @EmployeeCount int output
