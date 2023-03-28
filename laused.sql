@@ -344,15 +344,15 @@ execute spGetNameById1 6, @FirstName output
 print 'Name of the employee = ' + @FirstName
 
 --näitab, nimi id järgi
-create proc spGetNameById2
+create proc spGetNameById3
 @Id int
 as begin
-	return (select FirstName from Employees where Id = @Id)
+select FirstName from Employees where Id = @Id
 end
 
 -- käivitame sp
 declare @EmployeeName nvarchar(50)
-exec @EmployeeName = spGetNameById2 1
+exec @EmployeeName = spGetNameById3 1
 print 'Name of the employee = ' + @EmployeeName
 
 select * from Employees
