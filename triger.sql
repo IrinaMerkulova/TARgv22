@@ -12,7 +12,7 @@
 
 -- after trigger:  käivitub peale mingit tegevust
 -- instead trigger: käivitub enne triggeri tegevuse toimumist
-
+---Tabeli loomine
 create table EmployeeTrigger 
 (
 Id int primary key,
@@ -22,14 +22,14 @@ Gender nvarchar(10),
 DepartmentId int
 )
 
--- ?
+-- väärtusega tabeli täitmine 
 insert into EmployeeTrigger values(1, 'John', 5000, 'Male', 3)
 insert into EmployeeTrigger values(2, 'Mike', 3400, 'Male', 2)
 insert into EmployeeTrigger values(3, 'Pam', 6000, 'Female', 1)
 insert into EmployeeTrigger values(4, 'Todd', 4800, 'Male', 4)
 insert into EmployeeTrigger values(5, 'Sara', 3200, 'Female', 1)
 insert into EmployeeTrigger values(6, 'Ben', 4800, 'Male', 3) 
---tehtud
+---Uue tabeli loomine
 create table EmployeeAudit
 (
 Id int identity(1, 1) primary key,
@@ -38,7 +38,7 @@ AuditData nvarchar(1000)
 
 
 
---?
+---Triggeri loomine
 create trigger tr_Employee_ForInsert
 on EmployeeTrigger
 for insert
@@ -50,12 +50,12 @@ as begin
 	values('New employee with Id = ' + cast(@Id as nvarchar(5)) 
 	+ ' is added at ' + cast(Getdate() as nvarchar(20)))
 end
-
+---näitab mis kell ja mis andmed oli loodud 
 insert into EmployeeTrigger values(7, 'Jimmy', 1800, 'Male', 3)
 
 select * from EmployeeAudit
-
---- ?
+select * from EmployeeTrigger
+--- Triggeri loomine
 create trigger EmployeeForDelete
 on EmployeeTrigger
 for delete
@@ -67,11 +67,11 @@ as begin
 	values('An existing employee with Id = ' + CAST(@Id as nvarchar(5))
 	+ ' is deleted at ' + cast(GETDATE()as nvarchar(20)))
 end
-
+---näitab mis kell oli kustutud järgmine andme tingimusel Id=7
 delete from EmployeeTrigger where Id = 7
 
 select * from EmployeeAudit
-
+select * from EmployeeTrigger
 --- after trigger
 -- kasutavad kahte tabelit, milleks on INSERTED ja DELETED
 
@@ -83,13 +83,13 @@ as begin
 	select * from deleted
 	select * from inserted
 end
-
+---näitab enne ja peale värskendust
 update EmployeeTrigger set Name = 'Todd', Salary = 2345,
 Gender = 'Male' where Id = 4
 
 
---- ?
-create trigger trEmployeeForUpdate
+--- triggeri loomine
+create trigger trEmployeeForUpdater
 on EmployeeTrigger
 for update
 as begin
@@ -160,26 +160,26 @@ where Id = 4
 select * from EmployeeTrigger
 select * from EmployeeAudit
 
---?
-create table Department
+--tabeli loomine
+create table Department1
 (
 Id int primary key,
 DeptName nvarchar(20)
 )
+--tabeli täitmine väärtusega
+insert into Department1 values(1, 'IT')
+insert into Department1 values(2, 'Payroll')
+insert into Department1 values(3, 'HR')
+insert into Department1 values(4, 'Admin')
 
-insert into Department values(1, 'IT')
-insert into Department values(2, 'Payroll')
-insert into Department values(3, 'HR')
-insert into Department values(4, 'Admin')
-
-
+Select * From Department1
 -- enne triggeri tegemist tuleb teha vaade?
 create view vEmployeeDetails
 as
 select EmployeeTrigger.Id, Name, Gender, DeptName
 from EmployeeTrigger
-join Department
-on EmployeeTrigger.DepartmentId = Department.Id
+join Department1
+on EmployeeTrigger.DepartmentId = Department1.Id
 
 
 
@@ -190,10 +190,10 @@ instead of insert
 as begin
 	declare @DeptId int
 
-	select @DeptId = Department.Id
-	from Department 
+	select @DeptId = Department1.Id
+	from Department1 
 	join inserted
-	on inserted.DeptName = Department.DeptName
+	on inserted.DeptName = Department1.DeptName
 
 	if(@DeptId is null)
 	begin
@@ -211,32 +211,32 @@ end
 -- esimene parameeter on veateate sisu, teiene on veatase (nr 16 tähendab üldiseid vigu),
 -- kolmas on veaolek
 
-insert into vEmployeeDetails values(7, 'Valarie', 'Female', 'assd')
+insert into vEmployeeDetails values(7, 'Valarie', 'Female', 2)
 
 delete from EmployeeTrigger where Id = 7
 --- 10 tund SQL
 select * from EmployeeTrigger
 select * from vEmployeeDetails
 
-
+---Viimane vahemärgi lisamine
 update vEmployeeDetails
 set DeptName = 'Payroll'
-where Id = 2
+where Id = 2;
 
 --- teeme vaate
-alter view vEmployeeDetailsUpdate
+CREATE view vEmployeeDetailsUpdate
 as
 select EmployeeTrigger.Id, Name, Salary, Gender, DeptName
 from EmployeeTrigger
-join Department
-on EmployeeTrigger.DepartmentId = Department.Id
+join Department1
+on EmployeeTrigger.DepartmentId = Department1.Id
 
 select * from vEmployeeDetailsUpdate
 update EmployeeTrigger set DepartmentId = 4
 where Id = 4
 
---- ?
-alter trigger trEmployeeDetailsInsteadOfUpdate
+--- Triggeri loomine
+Create trigger trEmployeeDetailsInsteadOfUpdate
 on vEmployeeDetailsUpdate
 instead of update
 as begin
@@ -249,10 +249,10 @@ as begin
 	if(UPDATE(DeptName))
 	begin
 		declare @DeptId int
-		select @DeptId = Department.Id
-		from Department
+		select @DeptId = Department1.Id
+		from Department1
 		join inserted
-		on inserted.DeptName = Department.DeptName
+		on inserted.DeptName = Department1.DeptName
 
 		if(@DeptId is null)
 		begin
@@ -298,7 +298,7 @@ set Name = 'Johny', Gender = 'Female', DeptName = 'IT'
 where Id = 1
 
 
---- ?
+--- Triggeri loomine
 
 create trigger trEmployeeDetails_InsteadOfDelete
 on vEmployeeDetails
