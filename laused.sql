@@ -74,18 +74,21 @@ values (8, 'Test', 'Test')
 alter table Person
 add Age nvarchar(10)
 
---uuendame andmeid
-update Person
-set Age = 149
-where Id = 8
 
 --lisage tabelis "Isik" välja väärtuste vahemiku piirang ja kontrollige selle toimivust
 ALTER TABLE Person
 ADD CONSTRAINT CK_Person_Age CHECK (Age > 0 AND Age < 150)
 
+alter table Person
+drop constraint CK_Person_Age
+
 insert into Person (Id, Name, Email, GenderId, Age)
 values (9, 'Test', 'Test', 2, 160)
-
+--uuendame andmeid
+update Person 
+set Age = 149
+Where Id=8
+select * from Person
 
 --prindib kõik kirjed tabelist "Isik", seejärel kustutab ühe kirje, mille "Id" on 8, ja prindib uuesti kõik kirjed tabelist "Isik".
 select * from Person
@@ -147,7 +150,7 @@ select top 50 percent * from Person
 select * from Person order by cast(Age as int)
 select * from Person order by Age
 
---?
+--välja "Vanus" väärtuste summa selle tabeli kõigi kirjete jaoks
 select sum(cast(Age as int)) from Person
 
 --- kuvab kõige nooremat isikut
@@ -181,7 +184,7 @@ Salary nvarchar(50),
 DepartmentId int
 )
 
---?
+--lisab uue kirje
 insert into Department (Id, DepartmentName, Location, DepartmentHead)
 values (1, 'IT', 'London', 'Rick')
 insert into Department (Id, DepartmentName, Location, DepartmentHead)
@@ -216,12 +219,12 @@ values (10, 'Russell', 'Male', 8800, NULL)
 
 select * from Employees
 
----?
+---dubleerivate väärtuste eemaldamine saadud andmekogumist.
 select distinct Name, DepartmentId from Employees
 
----?
+---tagastab ühe väärtuse - välja "Palk" väärtuste kogusumma tabeli "Töötajad" kõigi kirjete jaoks.
 select sum(cast(Salary as int)) from Employees
----?
+---tagastab ühe väärtuse - välja "Palk" väärtuste kogusumma tabeli "Töötajad" kõigi kirjete jaoks.
 select min(cast(Salary as int)) from Employees
 
 
@@ -234,7 +237,10 @@ add DepartmentId
 int null
 
 
---?
+--See käsk muudab tabeli "Töötajad" struktuuri, lisades uue veeru "MiddleName"
+alter table Employees
+add FirstName nvarchar(30) 
+
 alter table Employees
 add MiddleName nvarchar(30)
 
@@ -284,7 +290,7 @@ spGetEmployees
 exec spGetEmployees
 execute spGetEmployees
 
---- 
+--- päring andmete toomiseks tabelist "Töötajad", mis tagastab töötajate nimed (veerg "FirstName"), nende soo (veerg "Gender") ja osakonna ID (veerg "OsakonnaId")
 create proc spGetEmployeesByGenderAndDepartment
 @Gender nvarchar(20),
 @DepartmentId int
@@ -294,13 +300,12 @@ as begin
 end
 
 --- kõik esimeses osakonnas meessoost töötavad isikud
-spGetEmployeesByGenderAndDepartment 'Male', 1
 
 spGetEmployeesByGenderAndDepartment @DepartmentId =  1, @Gender = 'Male'
 
 
 
---?
+--laadimispäring tabelist "Töötajad", mis loendab teatud sooga töötajate arvu (veerg "Id") ja kirjutab selle väärtuse muutujasse @EmployeeCount.
 create proc spGetEmployeeCountByGender
 @Gender nvarchar(20),
 @EmployeeCount int output
@@ -322,7 +327,7 @@ declare @TotalCount int
 exec spGetEmployeeCountByGender @EmployeeCount = @TotalCount out, @Gender = 'Male'
 print @TotalCount
 
----?
+---päring andmete toomiseks tabelist "Töötajad", mis loendab tabelis olevate kirjete arvu ja kirjutab selle väärtuse muutujasse @TotalCount.
 create proc spTotalCount2
 @TotalCount int output
 as begin
@@ -333,7 +338,7 @@ declare @TotalEmployees int
 execute spTotalCount2 @TotalEmployees output
 select @TotalEmployees
 
---- ?
+--- laadimispäring tabelist "töötajad", mis valib antud @Id-ga kirje jaoks veeru "Eesnimi" väärtuse ja kirjutab selle väärtuse @FirstName muutujasse.
 create proc spGetNameById1
 @Id int,
 @FirstName nvarchar(50) output
@@ -341,19 +346,18 @@ as begin
 	select @FirstName = FirstName from employees where Id = @Id
 end
 
---?
+--Pärast protseduuri läbiviimist on @FirstName muutujas saadaval antud identifikaatorile vastav töötaja nime väärtus.
 declare @FirstName nvarchar(50)
 execute spGetNameById1 6, @FirstName output
 print 'Name of the employee = ' + @FirstName
 
---?
+--päring tabelis "Töötajad", kasutades kirjete filtreerimiseks ja välja "Eesnimi" väärtuse toomiseks parameetrit @Id.
 create proc spGetNameById2
 @Id int
 as begin
 	return (select FirstName from Employees where Id = @Id)
 end
 
--- ?
 declare @EmployeeName nvarchar(50)
 exec @EmployeeName = spGetNameById2 1
 print 'Name of the employee = ' + @EmployeeName
