@@ -42,7 +42,7 @@ values (4, 'Aquaman', 'a@a.com', 2)
 insert into Person (Id, Name, Email, GenderId)
 values (5, 'Catwoman', 'c@c.com', 1)
 insert into Person (Id, Name, Email, GenderId)
-values (6, 'Antman', 'ant"ant.com', 2)
+values (6, 'Antman', 'ant@ant.com', 2)
 insert into Person (Id, Name, Email, GenderId)
 values (7, 'Spiderman', 'spider@spiderman.com', 2)
 
@@ -108,8 +108,12 @@ select * from Person where City = 'Gotham'
 select * from Person where City <> 'Gotham'
 select * from Person where City != 'Gotham'
 
+-- andmete lisamine Age UPDATE kaudu
+UPDATE Person Set Age=100;
+UPDATE Person Set Age=80 Where Id=4 or Id=1;
+
 -- näitab teatud vanusega inimesi
-select *from Person where Age = 100 or 
+select * from Person where Age = 100 or 
 Age = 50 or Age = 20
 select * from Person where Age in (100, 50, 20)
 
@@ -127,9 +131,9 @@ select * from Person where Email not like '%@%'
 -- ainult üks täht
 select * from Person where Email like '_@_.com'
 
---?
+-- näitab kõiki, kus nimi ei alga W, A, või S
 select * from Person where Name like '[^WAS]%'
---- ?
+--- näitab kõiki, kus City on 'Gotham' või 'New York' ja Age > 40
 select * from Person where (City = 'Gotham' or City = 'New York')
 and Age >= 40
 
@@ -142,11 +146,11 @@ select top 3 Age, Name from Person
 
 --- näitab esimesed 50% tabelis
 select top 50 percent * from Person
---?
+-- näitab kõiki, ja sortimine Age kaudu, desc and asc
 select * from Person order by cast(Age as int)
 select * from Person order by Age
 
---?
+-- näitab summa Age kaudu
 select sum(cast(Age as int)) from Person
 
 --- kuvab kõige nooremat isikut
