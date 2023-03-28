@@ -234,7 +234,7 @@ update vEmployeeDetails2
 set DeptName = 'Payroll'
 where Id = 2
 
---- teeme vaate alter muutusin create
+--- teeme vaate, aga alter muutusin create
 create view vEmployeeDetailsUpdate
 as
 select EmployeeTrigger.Id, Name, Salary, Gender, DeptName
@@ -246,7 +246,7 @@ select * from vEmployeeDetailsUpdate
 update EmployeeTrigger set DepartmentId = 4
 where Id = 4
 
---- muutusin Department, panin Department2 ja alter muutusin create
+--- muutusin Department, panin Department2 ja alter muutusin create trigger jälgib andmete muutmine ID järgi
 alter trigger trEmployeeDetailsInsteadOfUpdate
 on vEmployeeDetailsUpdate
 instead of update
@@ -309,7 +309,7 @@ set Name = 'Johny', Gender = 'Female', DeptName = 'IT'
 where Id = 1
 
 
---- ?
+--- Siin kõik töötab korralikult, jälgib kustutatud andmed ID järgi
 
 create trigger trEmployeeDetails_InsteadOfDelete
 on vEmployeeDetails
