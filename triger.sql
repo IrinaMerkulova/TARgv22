@@ -176,12 +176,13 @@ insert into Department2 values(4, 'Admin')
 
 
 -- enne triggeri tegemist tuleb teha vaade?
+--меняем название таблицы на department2 и добавляем Id к триггеру в запись
 create view vEmployeeDetails
 as
 select EmployeeTrigger.Id, Name, Gender, DeptName
 from EmployeeTrigger
-join Department
-on EmployeeTrigger.DepartmentId = Department.Id
+join Department2
+on EmployeeTrigger.Id = Department2.Id
 
 
 
