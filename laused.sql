@@ -229,7 +229,7 @@ add DepartmentId
 int null
 
 
---?
+--muutminime tüüpi adnmed ning lisamine veeru 
 alter table Employees
 add MiddleName nvarchar(30)
 
