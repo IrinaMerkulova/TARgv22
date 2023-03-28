@@ -160,7 +160,7 @@ where Id = 4
 select * from EmployeeTrigger
 select * from EmployeeAudit
 
---Tabeli loomine ja infi lisamine
+--Tabeli loomine ja info lisamine
 create table Department
 (
 Id int primary key,
@@ -224,7 +224,7 @@ set DeptName = 'Payroll'
 where Id = 2
 
 --- teeme vaate
-alter view vEmployeeDetailsUpdate
+create view vEmployeeDetailsUpdate
 as
 select EmployeeTrigger.Id, Name, Salary, Gender, DeptName
 from EmployeeTrigger
@@ -235,8 +235,8 @@ select * from vEmployeeDetailsUpdate
 update EmployeeTrigger set DepartmentId = 4
 where Id = 4
 
---- ?
-alter trigger trEmployeeDetailsInsteadOfUpdate
+--- Triggeri loomine; deptID puudumise kohta tuleb veateade
+create trigger trEmployeeDetailsInsteadOfUpdate
 on vEmployeeDetailsUpdate
 instead of update
 as begin
@@ -298,7 +298,7 @@ set Name = 'Johny', Gender = 'Female', DeptName = 'IT'
 where Id = 1
 
 
---- ?
+--- Selle treggiriga on vüimalik kustutada read.
 
 create trigger trEmployeeDetails_InsteadOfDelete
 on vEmployeeDetails
