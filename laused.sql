@@ -174,7 +174,6 @@ DepartmentHead nvarchar(50)
 create table Employees
 (
 Id int primary key,
-Name nvarchar(50),
 Gender nvarchar(10),
 Salary nvarchar(50),
 DepartmentId int
@@ -330,7 +329,7 @@ declare @TotalCount int
 exec spGetEmployeeCountByGender @EmployeeCount = @TotalCount out, @Gender = 'Male'
 print @TotalCount
 
----?
+---protseduuri loomine, tabelist Employees kirjete loendamine
 create proc spTotalCount2
 @TotalCount int output
 as begin
