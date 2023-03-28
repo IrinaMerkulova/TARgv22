@@ -39,8 +39,8 @@ AuditData nvarchar(1000)
 )
 
 
-
---?
+--otsib esmalt SELECT-lause abil "sisestatud" virtuaalsest tabelist veeru "Id" väärtuse ja määrab selle muutujale nimega "@Id".
+--Seejärel lisab see tabelisse "EmployeeAudit" uue rea sõnumiga, mis sisaldab @Id muutuja väärtust ja praegust kuupäeva/kellaaega.
 create trigger tr_Employee_ForInsert
 on EmployeeTrigger
 for insert
@@ -57,7 +57,7 @@ insert into EmployeeTrigger values(7, 'Jimmy', 1800, 'Male', 3)
 
 select * from EmployeeAudit
 
---- ?
+--- Loob triggeri mis kustutab An existing employee with Id
 create trigger EmployeeForDelete
 on EmployeeTrigger
 for delete
