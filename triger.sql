@@ -38,7 +38,7 @@ AuditData nvarchar(1000)
 
 
 
---?
+--созданный триггер записывает информацию о добавлении нового сотрудника в таблицу EmployeeAudit
 create trigger tr_Employee_ForInsert
 on EmployeeTrigger
 for insert
