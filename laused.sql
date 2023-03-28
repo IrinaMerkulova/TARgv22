@@ -330,7 +330,7 @@ declare @TotalCount int
 exec spGetEmployeeCountByGender @EmployeeCount = @TotalCount out, @Gender = 'Male'
 print @TotalCount
 
----?
+---процедура, в которой происходит выборка количества записей из таблицы Employees, используя функцию count(). Затем это количество записей записывается в переменную @TotalCount.
 create proc spTotalCount2
 @TotalCount int output
 as begin
