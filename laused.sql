@@ -79,14 +79,15 @@ update Person
 set Age = 149
 where Id = 8
 
---?
-alter table Person
-add constraint CK_Person_Age check (Age > 0 and Age < 150)
+--lisage tabelis "Isik" välja väärtuste vahemiku piirang ja kontrollige selle toimivust
+ALTER TABLE Person
+ADD CONSTRAINT CK_Person_Age CHECK (Age > 0 AND Age < 150)
 
 insert into Person (Id, Name, Email, GenderId, Age)
 values (9, 'Test', 'Test', 2, 160)
 
---?
+
+--prindib kõik kirjed tabelist "Isik", seejärel kustutab ühe kirje, mille "Id" on 8, ja prindib uuesti kõik kirjed tabelist "Isik".
 select * from Person
 go
 delete from Person where Id = 8
@@ -97,11 +98,16 @@ select * from Person
 alter table Person
 add City nvarchar(25)
 
+--andmete lisamine City UPDATE kaudu
+UPDATE Person Set City='Gotham';
+UPDATE Person Set City='Tartu' Where Id=2 or Id=3
+
 -- tahame tead kõiki, kes elavad Gothami linnas 
 select * from Person where City = 'Gotham'
 -- kõik, kes ei ela Gothamis
 select * from Person where City <> 'Gotham'
 select * from Person where City != 'Gotham'
+
 
 -- näitab teatud vanusega inimesi
 select *from Person where Age = 100 or 
@@ -122,9 +128,9 @@ select * from Person where Email not like '%@%'
 -- ainult üks täht
 select * from Person where Email like '_@_.com'
 
---?
+--näitab nimed, mis ei alga W, A, või S
 select * from Person where Name like '[^WAS]%'
---- ?
+--- see käsk valib tabelis "Isik" kõik inimesed, kes elavad linnas "Gotham" või "New York" ja on 40-aastased või vanemad.
 select * from Person where (City = 'Gotham' or City = 'New York')
 and Age >= 40
 
@@ -137,7 +143,7 @@ select top 3 Age, Name from Person
 
 --- näitab esimesed 50% tabelis
 select top 50 percent * from Person
---?
+--valik plaate tabelist "Isik" ja järjestada need vanuse järgi
 select * from Person order by cast(Age as int)
 select * from Person order by Age
 
