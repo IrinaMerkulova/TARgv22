@@ -108,6 +108,12 @@ select * from Person where City = 'Gotham'
 select * from Person where City <> 'Gotham'
 select * from Person where City != 'Gotham'
 
+--lisame vanust inimestele
+UPDATE Person set Age='25'
+UPDATE Person set Age='44' Where Id=3 or Id=6;
+UPDATE Person set Age='36' Where Id=1
+select * from Person
+
 -- näitab teatud vanusega inimesi
 select *from Person where Age = 100 or 
 Age = 50 or Age = 20
