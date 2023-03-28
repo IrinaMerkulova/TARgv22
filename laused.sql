@@ -184,7 +184,7 @@ Salary nvarchar(50),
 DepartmentId int
 )
 
---?
+--sisestame andmed tabelisse department ja employees
 insert into Department (Id, DepartmentName, Location, DepartmentHead)
 values (1, 'IT', 'London', 'Rick')
 insert into Department (Id, DepartmentName, Location, DepartmentHead)
