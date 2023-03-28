@@ -10,7 +10,7 @@ create table Gender
 Id int NOT NULL primary key,
 Gender nvarchar(10) not null
 )
-
+---tabeli Person loomine
 create table Person
 (
 Id int not null primary key,
@@ -25,11 +25,11 @@ values (1, 'Female')
 insert into Gender (Id, Gender)
 values (2, 'Male')
 
---- ?
+--- tabeli muutmine, piirangu lisamine - foreigh key
 alter table Person add constraint tblPerson_GenderId_FK
 foreign key (GenderId) references Gender(Id)
 
--- sisestame andmed
+--- sisestame andmed
 insert into Person (Id, Name, Email, GenderId)
 values (1, 'Supermees', 's@s.com', 2)
 insert into Person (Id, Name, Email, GenderId)
