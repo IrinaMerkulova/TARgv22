@@ -11,6 +11,7 @@ Id int NOT NULL primary key,
 Gender nvarchar(10) not null
 )
 
+--tabeli Person loomine
 create table Person
 (
 Id int not null primary key,
@@ -55,6 +56,7 @@ drop constraint tblPerson_GenderId_FK
 -- sisestame väärtuse tabelisse
 insert into Gender (Id, Gender)
 values (3, 'Unknown')
+select * from Gender;
 -- lisame võõrvõtme uuesti
 alter table Person
 add constraint DF_Person_GenderId
