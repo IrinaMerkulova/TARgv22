@@ -301,11 +301,10 @@ end
 select * from EmployeeTrigger
 
 update vEmployeeDetailsUpdate
-set Name = 'Johny', Gender = 'Female', DeptName = 'IT'
+set Name = 'Johny', Gender = 'Female', Department2.DeptName = 'IT'
 where Id = 1
 
-
---- ?
+--- триггер будет выполняться вместо DELETE. В коде триггера удаляется соответствующая строка из таблицы EmployeeTrigger.
 
 create trigger trEmployeeDetails_InsteadOfDelete
 on vEmployeeDetails
