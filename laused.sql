@@ -192,6 +192,8 @@ values (4, 'Other Deparment', 'Sydney', 'Cindrella')
 
 select * from Department
 
+
+--andmete lisamine (Id, Name, Gender, Salary, DepartmentId)
 insert into Employees (Id, Name, Gender, Salary, DepartmentId)
 values (1, 'Tom', 'Male', 4000, 1)
 insert into Employees (Id, Name, Gender, Salary, DepartmentId)
@@ -215,7 +217,7 @@ values (10, 'Russell', 'Male', 8800, NULL)
 
 select * from Employees
 
----?
+--tabelist andmete valimine (Name, DepartmentId)
 select distinct Name, DepartmentId from Employees
 
 ---?
