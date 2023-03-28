@@ -228,7 +228,7 @@ set DeptName = 'Payroll'
 where Id = 2
 
 --- teeme vaate Invalid object name 'vEmployeeDetailsUpdate' kustutame Update
-alter view vEmployeeDetails
+create view vEmployeeDetailsUpdate
 as
 select EmployeeTrigger.Id, Name, Salary, Gender, DeptName
 from EmployeeTrigger
@@ -236,12 +236,12 @@ join DepartmentTr
 on EmployeeTrigger.Id = DepartmentTr.Id
 
 --Invalid object name 'vEmployeeDetailsUpdate'.
-select * from vEmployeeDetails
+select * from vEmployeeDetailsUpdate
 update EmployeeTrigger set DepartmentId = 4
 where Id = 4
 
 --- The object 'vEmployeeDetailsUpdate' does not exist or is invalid for this operation.
-alter trigger trEmployeeDetailsInsteadOfUpdate
+create trigger trEmployeeDetailsInsteadOfUpdate
 on vEmployeeDetails
 instead of update
 as begin
