@@ -76,8 +76,8 @@ add Age varchar(10)
 
 --uuendame andmeid
 update Person
-set Age = 149
-where Id = 8
+set Age = 32
+where Id = 7
 
 --Piirangu loomine
 alter table Person
@@ -86,7 +86,7 @@ add constraint CK_Person_Age check (Age > 0 and Age < 150)
 insert into Person (Id, Name, Email, GenderId, Age)
 values (9, 'Test', 'Test', 2, 140)
 
---?
+--Inimese kustutamine
 select * from Person
 go
 delete from Person where Id = 8
@@ -96,6 +96,11 @@ select * from Person
 --- lisame veeru juurde
 alter table Person
 add City nvarchar(25)
+
+-- Muudame City
+update Person
+set City = 'Gotham'
+where Id = 3
 
 -- tahame tead kõiki, kes elavad Gothami linnas 
 select * from Person where City = 'Gotham'
@@ -112,7 +117,7 @@ select * from Person where Age in (100, 50, 20)
 select * from Person where Age between 30 and 50
 
 --- wildcard e näitab kõik g-tähega linnad
-select * from Person where City like 'n%'
+select * from Person where City like 'g%'
 select * from Person where Email like '%@%'
 
 -- n'itab kõiki, kellel ei ole @-märki emailis
