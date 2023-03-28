@@ -79,14 +79,18 @@ update Person
 set Age = 149
 where Id = 8
 select * from Person
----võõrvõtme - omandamine ühe väärtusega tabelist tingimustega
+---võõrvõtme - piirangu määramine
 alter table Person
 add constraint CK_Person_Age check (Age > 0 and Age < 150)
-
+---tabeli värskendamine( Age--andmete tüüp on muudatud)
+Alter table Person Alter COLUMN Age nvarchar(200);
+Alter table Person
+drop constraint CK_Person_Age;
+---sisestame uue väärtuse tabelisse
 insert into Person (Id, Name, Email, GenderId, Age)
 values (9, 'Test', 'Test', 2, 160)
 
---?
+---kustutamine tabelist üks veerg
 select * from Person
 go
 delete from Person where Id = 8
@@ -96,6 +100,15 @@ select * from Person
 --- lisame veeru juurde
 alter table Person
 add City nvarchar(25)
+
+---andmete lisamine City UPDATE kaudu
+UPDATE Person Set City='Gotham';
+UPDATE Person Set City='Tartu' Where Id=2 or Id=3;
+---lisame paar asju
+insert into Person (Id, Name, Email, GenderId, Age)
+values (2, 'Test3', 'Test3', 4, 110),
+	 (10, 'Test1', 'Test1', 3, 45),
+	 (11, 'Test2', 'Test2', 6, 70);
 
 -- tahame tead kõiki, kes elavad Gothami linnas 
 select * from Person where City = 'Gotham'
@@ -112,10 +125,11 @@ select * from Person where Age in (100, 50, 20)
 select * from Person where Age between 30 and 50
 
 --- wildcard e näitab kõik g-tähega linnad
-select * from Person where City like 'n%'
+select * from Person where City like 'g%'
+---wildcard e näitab kõik @-tähega keskel laused
 select * from Person where Email like '%@%'
 
--- n'itab kõiki, kellel ei ole @-märki emailis
+-- näitab, kelle on emailis puudutav @--märki 
 select * from Person where Email not like '%@%'
 
 --- näitab, kelle on emailis ees ja peale @-märki
