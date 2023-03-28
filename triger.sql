@@ -29,7 +29,7 @@ insert into EmployeeTrigger values(3, 'Pam', 6000, 'Female', 1)
 insert into EmployeeTrigger values(4, 'Todd', 4800, 'Male', 4)
 insert into EmployeeTrigger values(5, 'Sara', 3200, 'Female', 1)
 insert into EmployeeTrigger values(6, 'Ben', 4800, 'Male', 3) 
---tehtud
+--tehtud tabel esimise võtiga
 create table EmployeeAudit
 (
 Id int identity(1, 1) primary key,
@@ -38,7 +38,7 @@ AuditData nvarchar(1000)
 
 
 
---?
+--Lisab tabelisse "EmployureAudit" uue rea teatega, mis näitab, et uus töötaja on lisatud 
 create trigger tr_Employee_ForInsert
 on EmployeeTrigger
 for insert
