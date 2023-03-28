@@ -180,7 +180,7 @@ Salary nvarchar(50),
 DepartmentId int
 )
 
---?
+--andmete lisamine (Id, DepartmentName, Location, DepartmentHead)
 insert into Department (Id, DepartmentName, Location, DepartmentHead)
 values (1, 'IT', 'London', 'Rick')
 insert into Department (Id, DepartmentName, Location, DepartmentHead)
