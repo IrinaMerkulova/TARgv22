@@ -26,7 +26,7 @@ values (1, 'Female')
 insert into Gender (Id, Gender)
 values (2, 'Male')
 
---- ?
+--- tabeli muutmine piirangu lisamine - foreign key
 alter table Person add constraint tblPerson_GenderId_FK
 foreign key (GenderId) references Gender(Id)
 
@@ -67,6 +67,7 @@ default 3 for GenderId
 select * from Person
 select * from Gender
 
+--inserting some data
 insert into Person (Id, Name, Email)
 values (8, 'Test', 'Test')
 
@@ -79,14 +80,15 @@ update Person
 set Age = 149
 where Id = 8
 
---?
+-- added ograni4enie na age
 alter table Person
 add constraint CK_Person_Age check (Age > 0 and Age < 150)
 
+-- add again some data
 insert into Person (Id, Name, Email, GenderId, Age)
 values (9, 'Test', 'Test', 2, 160)
 
---?
+-- now watching table and delete record with id 8 and again watching
 select * from Person
 go
 delete from Person where Id = 8
