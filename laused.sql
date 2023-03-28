@@ -66,20 +66,20 @@ Select * from Gender;
 
 select * from Person
 select * from Gender
-
+---sisestame uue väärtuse tabelisse
 insert into Person (Id, Name, Email)
 values (8, 'Test', 'Test')
-
+select * from Person
 ---lisame uue veeru tabelisse
 alter table Person
 add Age nvarchar(10)
-
+select * from Person
 --uuendame andmeid
 update Person
 set Age = 149
 where Id = 8
-
---?
+select * from Person
+---võõrvõtme - omandamine ühe väärtusega tabelist tingimustega
 alter table Person
 add constraint CK_Person_Age check (Age > 0 and Age < 150)
 
