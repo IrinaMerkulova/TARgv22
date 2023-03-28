@@ -1,7 +1,7 @@
 -- db loomine
 create database Targv22
 
---?
+-- db kustutamine
 DRop DataBASE Targv22
 
 --?
