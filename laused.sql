@@ -25,7 +25,7 @@ values (1, 'Female')
 insert into Gender (Id, Gender)
 values (2, 'Male')
 
---- ?
+--- See käsk muudab tabelit "Person", lisades sellele võõrvõtme, mis seob tabeli "Person" välja "GenderId" tabeli "Sugu" väljaga "Id".
 alter table Person add constraint tblPerson_GenderId_FK
 foreign key (GenderId) references Gender(Id)
 
@@ -55,7 +55,8 @@ drop constraint tblPerson_GenderId_FK
 -- sisestame väärtuse tabelisse
 insert into Gender (Id, Gender)
 values (3, 'Unknown')
--- lisame võõrvõtme uuesti
+SELECT * from Gender;
+-- lisame võõrvõtme uuesti ---
 alter table Person
 add constraint DF_Person_GenderId
 default 3 for GenderId
