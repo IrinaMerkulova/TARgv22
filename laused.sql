@@ -1,10 +1,10 @@
--- db loomine
+--1 db loomine
 create database Targv22
 
--- db kustutamine
+--2 db kustutamine 
 DRop DataBASE Targv22
 
---lisame tabel nimetatud Gender ja tabel nimetatud Person
+--3 lisame tabel nimetatud Gender ja tabel nimetatud Person 
 create table Gender
 (
 Id int NOT NULL primary key,
@@ -19,17 +19,17 @@ Email nvarchar(30),
 GenderId int
 )
 
---- andmete sisestamine tabelisse
+---4 andmete sisestamine tabelisse 
 insert into Gender (Id, Gender)
 values (1, 'Female')
 insert into Gender (Id, Gender)
 values (2, 'Male')
 
---- Muutume tabeli Person, et lisame foreign key seotud Id-ga(Gender Tabel)
+---5 Muutume tabeli Person, et lisame foreign key seotud Id-ga(Gender Tabel) 
 alter table Person add constraint tblPerson_GenderId_FK
 foreign key (GenderId) references Gender(Id)
 
--- sisestame andmed
+--6 sisestame andmed 
 insert into Person (Id, Name, Email, GenderId)
 values (1, 'Supermees', 's@s.com', 2)
 insert into Person (Id, Name, Email, GenderId)
@@ -45,23 +45,23 @@ values (6, 'Antman', 'ant"ant.com', 2)
 insert into Person (Id, Name, Email, GenderId)
 values (7, 'Spiderman', 'spider@spiderman.com', 2)
 
--- vaatame tabeli andmeid
+--7 vaatame tabeli andmeid
 select * from Person
 
---- võõrvõtme piirangu maha võtmine
+---8 võõrvõtme piirangu maha võtmine
 alter table Person
 drop constraint tblPerson_GenderId_FK
 
--- sisestame väärtuse tabelisse
+--9 sisestame väärtuse tabelisse
 insert into Gender (Id, Gender)
 values (3, 'Unknown')
--- lisame võõrvõtme uuesti
+--10 lisame võõrvõtme uuesti
 alter table Person
 add constraint DF_Person_GenderId
 default 3 for GenderId
 
 
----- 2 tund
+----11 2 tund
 
 select * from Person
 select * from Gender
@@ -69,16 +69,17 @@ select * from Gender
 insert into Person (Id, Name, Email)
 values (8, 'Test', 'Test')
 
----lisame uue veeru tabelisse
+---12 lisame uue veeru tabelisse
 alter table Person
 add Age nvarchar(10)
 
---uuendame andmeid
+--13uuendame andmeid
 update Person
 set Age = 149
 where Id = 8
 
---?
+--14 Liisame piirangud, et Age tuleb piiratud diapasoonil rohkem kui 0 ja vähem kui 150,
+siis lisada Test AGEga 160 me juba ei saa.
 alter table Person
 add constraint CK_Person_Age check (Age > 0 and Age < 150)
 
