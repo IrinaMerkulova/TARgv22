@@ -216,7 +216,7 @@ select distinct Name, DepartmentId from Employees
 
 ---tagastab tabeli "Töötajad" veerus "Palk" olevate väärtuste summa
 select sum(cast(Salary as int)) from Employees
----?
+---tagastab tabeli "Töötajad" veerus "Palk" olevate minimum väärtuse summa
 select min(cast(Salary as int)) from Employees
 
 
