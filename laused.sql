@@ -100,10 +100,10 @@ add City nvarchar(25)
 -- tahame tead kõiki, kes elavad Gothami linna 
 select * from Person where City = 'Gotham'
 -- kõik, kes ei ela Gothamis
-select * from Person where City <> 'Gotham'
-select * from Person where City != 'Gotham'
+UPDATE Person SET City = 'Gotham';
+UPDATE Person SET City = 'Tartu' Where Id=2 or Id=3;
 
--- näitab teatud vanusega inimesiiii
+-- näitab teatud vanusega inimesi
 select *from Person where Age = 100 or 
 Age = 50 or Age = 20
 select * from Person where Age in (100, 50, 20)
