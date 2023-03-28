@@ -26,7 +26,7 @@ values (1, 'Female')
 insert into Gender (Id, Gender)
 values (2, 'Male')
 
---- ?
+--- tabeli muutmine piirangu liisamine - foreighn key 
 alter table Person add constraint tblPerson_GenderId_FK
 foreign key (GenderId) references Gender(Id)
 
@@ -56,6 +56,8 @@ drop constraint tblPerson_GenderId_FK
 -- sisestame väärtuse tabelisse
 insert into Gender (Id, Gender)
 values (3, 'Unknown')
+SELECT * FROM Gender;
+
 -- lisame võõrvõtme uuesti
 alter table Person
 add constraint DF_Person_GenderId
