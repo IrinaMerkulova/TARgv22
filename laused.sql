@@ -229,13 +229,13 @@ select min(cast(Salary as int)) from Employees
 alter table Employees
 add City nvarchar(25)
 
-
+--ei saa käivitada, DepartmentId juba tabelis olemas
 alter table Employees
 add DepartmentId
 int null
 
 
---?
+--uus veeru MiddleName loomine teise nimi lisamise eest
 alter table Employees
 add MiddleName nvarchar(30)
 
