@@ -302,7 +302,7 @@ set Name = 'Johny', Gender = 'Female', DeptName = 'IT'
 where Id = 1
 
 
---- ?
+--- Töötab siis, kui andmebaasis oleva vEmployeeDetailsUpdate vaate ridu värskendatakse .Triggeri eesmärk on tagada, et vaates olevad andmed vastavad alati töötajate tegelikele andmetele.
 
 create trigger trEmployeeDetails_InsteadOfDelete
 on vEmployeeDetails
