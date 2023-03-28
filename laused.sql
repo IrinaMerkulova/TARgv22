@@ -249,8 +249,8 @@ add MiddleName nvarchar(30)
 alter table Employees
 add LastName nvarchar(30)
 
-alter table Employees
-add FirstName nvarchar(30)
+EXEC sp_rename 'Employees.[Name]', 'FirstName', 'COLUMN';
+
 
 update Employees set FirstName = 'Tom', MiddleName = 'Nick', LastName = 'Jones'
 where Id = 1
@@ -288,14 +288,14 @@ select * from Department
 --- loome stored procedure, mis kuvab vaate
 create procedure spGetEmployees
 as begin
-	select FirstName, Gender from Employees
+select FirstName, Gender from Employees
 end
 
 spGetEmployees
 exec spGetEmployees
 execute spGetEmployees
 
---- 
+--- loome procedure, mis kuvab nimed sugu ja department järgi
 create proc spGetEmployeesByGenderAndDepartment
 @Gender nvarchar(20),
 @DepartmentId int
@@ -311,7 +311,7 @@ spGetEmployeesByGenderAndDepartment @DepartmentId =  1, @Gender = 'Male'
 
 
 
---?
+--loome procedure, mis loeb inimeste sugu 
 create proc spGetEmployeeCountByGender
 @Gender nvarchar(20),
 @EmployeeCount int output
@@ -333,7 +333,7 @@ declare @TotalCount int
 exec spGetEmployeeCountByGender @EmployeeCount = @TotalCount out, @Gender = 'Male'
 print @TotalCount
 
----?
+---loome procedur mis loeb kõik isikuid
 create proc spTotalCount2
 @TotalCount int output
 as begin
@@ -344,7 +344,7 @@ declare @TotalEmployees int
 execute spTotalCount2 @TotalEmployees output
 select @TotalEmployees
 
---- ?
+--- loome procedur mis kuvab nimi Id järgi
 create proc spGetNameById1
 @Id int,
 @FirstName nvarchar(50) output
@@ -352,21 +352,21 @@ as begin
 	select @FirstName = FirstName from employees where Id = @Id
 end
 
---?
+-- annab teada, employee nimi Id 6 järgi
 declare @FirstName nvarchar(50)
 execute spGetNameById1 6, @FirstName output
 print 'Name of the employee = ' + @FirstName
 
---?
+--loome procedur mis kuvab nimi Id järgi
 create proc spGetNameById2
 @Id int
 as begin
 	return (select FirstName from Employees where Id = @Id)
 end
 
--- ?
+-- annab teada, employee nimi Id 1 järgi
 declare @EmployeeName nvarchar(50)
-exec @EmployeeName = spGetNameById2 1
+execute @EmployeeName = spGetNameById2 1
 print 'Name of the employee = ' + @EmployeeName
 
 select * from Employees
