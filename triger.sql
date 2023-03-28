@@ -180,10 +180,11 @@ create view vEmployeeDetails
 as
 select EmployeeTrigger.Id, Name, Gender, DeptName
 from EmployeeTrigger
-join Department
-on EmployeeTrigger.DepartmentId = Department.Id
+join DepartmentTr
+on EmployeeTrigger.DepartmentId = DepartmentTr.Id
 
-
+select * from EmployeeTrigger
+select * from DepartmentTr
 
 ---- instead of insert trigger
 create trigger trEmployeeDetailsInsteadOfInsert
@@ -192,10 +193,10 @@ instead of insert
 as begin
 	declare @DeptId int
 
-	select @DeptId = Department.Id
-	from Department 
+	select @DeptId = DepartmentTr.Id
+	from DepartmentTr 
 	join inserted
-	on inserted.DeptName = Department.DeptName
+	on inserted.DeptName = DepartmentTr.DeptName
 
 	if(@DeptId is null)
 	begin
