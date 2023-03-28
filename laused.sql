@@ -344,7 +344,7 @@ declare @FirstName nvarchar(50)
 execute spGetNameById1 6, @FirstName output
 print 'Name of the employee = ' + @FirstName
 
---?
+--Запрос в хранимой процедуре использует инструкцию «SELECT» для извлечения столбца «FirstName» из таблицы «Employees», где столбец «Id» соответствует входному параметру « Id». Результат оператора «SELECT» затем возвращается с помощью оператора «RETURN».
 create proc spGetNameById2
 @Id int
 as begin
