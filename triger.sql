@@ -22,7 +22,7 @@ Gender nvarchar(10),
 DepartmentId int
 )
 
--- ?
+-- andmete lisamine
 insert into EmployeeTrigger values(1, 'John', 5000, 'Male', 3)
 insert into EmployeeTrigger values(2, 'Mike', 3400, 'Male', 2)
 insert into EmployeeTrigger values(3, 'Pam', 6000, 'Female', 1)
@@ -38,7 +38,7 @@ AuditData nvarchar(1000)
 
 
 
---?
+--triggeri loomine, uue andmete lisamine
 create trigger tr_Employee_ForInsert
 on EmployeeTrigger
 for insert
@@ -51,11 +51,11 @@ as begin
 	+ ' is added at ' + cast(Getdate() as nvarchar(20)))
 end
 
-insert into EmployeeTrigger values(7, 'Jimmy', 1800, 'Male', 3)
+insert into EmployeeTrigger values(9, 'Jimmy', 1800, 'Male', 3)
 
 select * from EmployeeAudit
 
---- ?
+--- triggeri loomine, andmete kustutamine id järgi
 create trigger EmployeeForDelete
 on EmployeeTrigger
 for delete
@@ -88,8 +88,8 @@ update EmployeeTrigger set Name = 'Todd', Salary = 2345,
 Gender = 'Male' where Id = 4
 
 
---- ?
-create trigger trEmployeeForUpdate
+--- triggeri loomine, muutsin triggeri nimetust
+create trigger trEmployeeForUpdate1
 on EmployeeTrigger
 for update
 as begin
@@ -160,26 +160,27 @@ where Id = 4
 select * from EmployeeTrigger
 select * from EmployeeAudit
 
---?
-create table Department
+--muutsin tabelite nimetus
+create table Department1
 (
 Id int primary key,
-DeptName nvarchar(20)
+DeptName nvarchar(20),
 )
 
-insert into Department values(1, 'IT')
-insert into Department values(2, 'Payroll')
-insert into Department values(3, 'HR')
-insert into Department values(4, 'Admin')
+insert into Department1 values(1, 'IT')
+insert into Department1 values(2, 'Payroll')
+insert into Department1 values(3, 'HR')
+insert into Department1 values(4, 'Admin')
 
 
--- enne triggeri tegemist tuleb teha vaade?
+--enne triggeri tegemist tuleb teha vaade?
+--Department --> Department1
 create view vEmployeeDetails
 as
 select EmployeeTrigger.Id, Name, Gender, DeptName
 from EmployeeTrigger
-join Department
-on EmployeeTrigger.DepartmentId = Department.Id
+join Department1
+on EmployeeTrigger.DepartmentId = Department1.Id
 
 
 
@@ -190,10 +191,10 @@ instead of insert
 as begin
 	declare @DeptId int
 
-	select @DeptId = Department.Id
-	from Department 
+	select @DeptId = Department1.Id
+	from Department1 
 	join inserted
-	on inserted.DeptName = Department.DeptName
+	on inserted.DeptName = Department1.DeptName
 
 	if(@DeptId is null)
 	begin
@@ -206,10 +207,10 @@ as begin
 	from inserted
 end
 --- raiserror funktsioon
--- selle eesmärk on välja tuua veateade, kui DepartmentName veerus ei ole väärtust
--- ja ei ühti sisestatud väärtusega
--- esimene parameeter on veateate sisu, teiene on veatase (nr 16 tähendab üldiseid vigu),
--- kolmas on veaolek
+--- selle eesmärk on välja tuua veateade, kui DepartmentName veerus ei ole väärtust
+--- ja ei ühti sisestatud väärtusega
+--- esimene parameeter on veateate sisu, teiene on veatase (nr 16 tähendab üldiseid vigu),
+--- kolmas on veaolek
 
 insert into vEmployeeDetails values(7, 'Valarie', 'Female', 'assd')
 
@@ -223,21 +224,21 @@ update vEmployeeDetails
 set DeptName = 'Payroll'
 where Id = 2
 
---- teeme vaate
-alter view vEmployeeDetailsUpdate
+--- teeme vaate -- oli vEmployeeDetailsUpdate --> vEmployeeDetails
+alter view vEmployeeDetails
 as
-select EmployeeTrigger.Id, Name, Salary, Gender, DeptName
+select EmployeeTrigger.DepartmentId, Name, Salary, Gender, DeptName
 from EmployeeTrigger
-join Department
-on EmployeeTrigger.DepartmentId = Department.Id
+join Department1
+on EmployeeTrigger.DepartmentId = Department1.Id
 
-select * from vEmployeeDetailsUpdate
+select * from vEmployeeDetails
 update EmployeeTrigger set DepartmentId = 4
 where Id = 4
 
---- ?
-alter trigger trEmployeeDetailsInsteadOfUpdate
-on vEmployeeDetailsUpdate
+--- Triggeri loomine, deptID puudumise kohta tuleb veateade
+create trigger trEmployeeDetailsInsteadOfUpdate
+on vEmployeeDetails
 instead of update
 as begin
 	if(update(Id))
@@ -245,7 +246,6 @@ as begin
 		raiserror('Id cannot be changed', 16, 1)
 		return
 	end
-
 	if(UPDATE(DeptName))
 	begin
 		declare @DeptId int
@@ -253,19 +253,16 @@ as begin
 		from Department
 		join inserted
 		on inserted.DeptName = Department.DeptName
-
 		if(@DeptId is null)
 		begin
 			raiserror('Invalid Department Name', 16, 1)
 			return
 		end
-
 		update EmployeeTrigger set DepartmentId = @DeptId
 		from inserted
 		join EmployeeTrigger
 		on EmployeeTrigger.Id = inserted.Id
 	end
-
 	if(update(Gender))
 	begin
 		update EmployeeTrigger set Gender = inserted.Gender
@@ -273,7 +270,6 @@ as begin
 		join EmployeeTrigger
 		on EmployeeTrigger.Id = inserted.Id
 	end
-
 	if(UPDATE(Name))
 	begin
 		update EmployeeTrigger set Name = inserted.Name
@@ -281,7 +277,6 @@ as begin
 		join EmployeeTrigger
 		on EmployeeTrigger.Id = inserted.Id
 	end
-
 	if(UPDATE(Salary))
 	begin
 		update EmployeeTrigger set Salary = inserted.Salary
@@ -290,12 +285,11 @@ as begin
 		on EmployeeTrigger.Id = inserted.Id
 	end
 end
-
 select * from EmployeeTrigger
 
-update vEmployeeDetailsUpdate
+update vEmployeeDetails
 set Name = 'Johny', Gender = 'Female', DeptName = 'IT'
-where Id = 1
+where Id = 8
 
 
 --- ?
