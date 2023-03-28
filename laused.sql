@@ -286,17 +286,17 @@ select * from Department
 
 
 
---- loome stored procedure, mis kuvab vaate
+--- 41 loome stored procedure, mis kuvab vaate AGA "spGetEmployees" parast end on uleliigne
 create procedure spGetEmployees
 as begin
 	select FirstName, Gender from Employees
 end
 
-spGetEmployees
+
 exec spGetEmployees
 execute spGetEmployees
 
---- 
+--- 42 loome procedure, mis näitab Employees Genderi ja Departmentiga
 create proc spGetEmployeesByGenderAndDepartment
 @Gender nvarchar(20),
 @DepartmentId int
@@ -305,14 +305,14 @@ as begin
 	and DepartmentId = @DepartmentId
 end
 
---- kõik esimeses osakonnas meessoost töötavad isikud
+--- 43kõik esimeses osakonnas meessoost töötavad isikud
 spGetEmployeesByGenderAndDepartment 'Male', 1
 
 spGetEmployeesByGenderAndDepartment @DepartmentId =  1, @Gender = 'Male'
 
 
 
---?
+--44 loome procedure, mis loendab(Id järgi) inimeste arvu soo järgi
 create proc spGetEmployeeCountByGender
 @Gender nvarchar(20),
 @EmployeeCount int output
@@ -320,7 +320,9 @@ as begin
 	select @EmployeeCount = count(Id) from Employees where Gender = @Gender
 end
 
--- annab teada, palju on meessoost isikuid ning kuvab vastava stringi
+
+
+--45 annab teada, palju on meessoost isikuid ning kuvab vastava stringi
 declare @TotalCount int
 exec spGetEmployeeCountByGender 'Female', @TotalCount out
 if(@TotalCount = 0)
@@ -329,18 +331,18 @@ else
 	print '@TotalCount is not null'
 print @TotalCount
 
--- annab teada, palju on meessoost isikuid
+--46 annab teada, palju on meessoost isikuid
 declare @TotalCount int
 exec spGetEmployeeCountByGender @EmployeeCount = @TotalCount out, @Gender = 'Male'
 print @TotalCount
 
----?
+---47 loome procedure, mis loendab kõik inimesi Employees tabelist
 create proc spTotalCount2
 @TotalCount int output
 as begin
 	select @TotalCount = count(Id) from Employees
 end
---- käivitame sp
+--- 48käivitame sp
 declare @TotalEmployees int
 execute spTotalCount2 @TotalEmployees output
 select @TotalEmployees
