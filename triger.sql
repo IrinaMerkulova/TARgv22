@@ -13,6 +13,7 @@
 -- after trigger:  käivitub peale mingit tegevust
 -- instead trigger: käivitub enne triggeri tegevuse toimumist
 
+-- Создание таблицы EmployeeTrigger
 create table EmployeeTrigger 
 (
 Id int primary key,
@@ -22,7 +23,7 @@ Gender nvarchar(10),
 DepartmentId int
 )
 
--- ?
+-- Добавление записей в таблицу EmployeeTrigger
 insert into EmployeeTrigger values(1, 'John', 5000, 'Male', 3)
 insert into EmployeeTrigger values(2, 'Mike', 3400, 'Male', 2)
 insert into EmployeeTrigger values(3, 'Pam', 6000, 'Female', 1)
@@ -38,7 +39,7 @@ AuditData nvarchar(1000)
 
 
 
---?
+---- Создание триггера на добавление записей в таблицу EmployeeTrigger
 create trigger tr_Employee_ForInsert
 on EmployeeTrigger
 for insert
@@ -51,11 +52,13 @@ as begin
 	+ ' is added at ' + cast(Getdate() as nvarchar(20)))
 end
 
+-- Добавление новой записи в таблицу EmployeeTrigger
 insert into EmployeeTrigger values(7, 'Jimmy', 1800, 'Male', 3)
 
+-- Просмотр записей в таблице EmployeeAudit
 select * from EmployeeAudit
 
---- ?
+-- Создание триггера на удаление записей из таблицы EmployeeTrigger
 create trigger EmployeeForDelete
 on EmployeeTrigger
 for delete
@@ -68,8 +71,10 @@ as begin
 	+ ' is deleted at ' + cast(GETDATE()as nvarchar(20)))
 end
 
+-- Удаление записи из таблицы EmployeeTrigger
 delete from EmployeeTrigger where Id = 7
 
+-- Просмотр записей в таблице EmployeeAudit
 select * from EmployeeAudit
 
 --- after trigger
@@ -88,7 +93,7 @@ update EmployeeTrigger set Name = 'Todd', Salary = 2345,
 Gender = 'Male' where Id = 4
 
 
---- ?
+-- Создание триггера на изменение записей в таблице EmployeeTrigger
 create trigger trEmployeeForUpdate
 on EmployeeTrigger
 for update
@@ -153,6 +158,7 @@ end
 
 select * from EmployeeTrigger
 
+-- Изменение записи в таблице EmployeeTrigger
 update EmployeeTrigger set Name = 'Todd123', Salary = 3456,
 Gender = 'Female', DepartmentId = 3 
 where Id = 4
