@@ -133,9 +133,9 @@ select * from Person where Email not like '%@%'
 -- ainult üks täht
 select * from Person where Email like '_@_.com'
 
---?
+--name does not start with the letters "W", "A", or "S".
 select * from Person where Name like '[^WAS]%'
---- ?
+---  kõik  "Person" tabelist kus  "City" column on kas "Gotham" or "New York" ja "Age"  suurem or equal to 40.
 select * from Person where (City = 'Gotham' or City = 'New York')
 and Age >= 40
 
