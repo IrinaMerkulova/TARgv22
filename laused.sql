@@ -347,27 +347,34 @@ declare @TotalEmployees int
 execute spTotalCount2 @TotalEmployees output
 select @TotalEmployees
 
---- ?
+--- 49 FirstName on vaja muutuda Name, sest tabelis ei ole Firstname, aga procedure otsib
+Employees nimi Id järgi
 create proc spGetNameById1
 @Id int,
 @FirstName nvarchar(50) output
 as begin
-	select @FirstName = FirstName from employees where Id = @Id
+	select @Name = Name from employees where Id = @Id
 end
 
---?
+--50 otsib inimest kellel on Id 6(töötab varem tehtud procedure) ja annab meile selle inimese nimi
 declare @FirstName nvarchar(50)
 execute spGetNameById1 6, @FirstName output
 print 'Name of the employee = ' + @FirstName
 
---?
+--51 FirstName ka ei ole tabelis, on vaja muutuda Name, aga procedure annab meile tagasi employee nimi sisestatud ID järgi
 create proc spGetNameById2
 @Id int
 as begin
-	return (select FirstName from Employees where Id = @Id)
+	return (select Name from Employees where Id = @Id)
+end
+--53 loome lisa procedure, et aitab meile viimases harjutuses
+create proc spGetNameById3
+@Id int
+as begin
+	select Name from Employees where Id = @Id
 end
 
--- ?
+-- 52 Siin mitte kasutame spGetNameById2, aga kasutame spGetNameById3 ja kõik töötab OK - nätab meile employee name 1 ID-ga
 declare @EmployeeName nvarchar(50)
 exec @EmployeeName = spGetNameById2 1
 print 'Name of the employee = ' + @EmployeeName
