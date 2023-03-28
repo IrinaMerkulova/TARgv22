@@ -13,6 +13,7 @@
 -- after trigger:  käivitub peale mingit tegevust
 -- instead trigger: käivitub enne triggeri tegevuse toimumist
 
+-- Создание таблицы EmployeeTrigger
 create table EmployeeTrigger 
 (
 Id int primary key,
@@ -22,23 +23,21 @@ Gender nvarchar(10),
 DepartmentId int
 )
 
--- ?
+-- добавляем новые данные в таблицу EmployeeTrigger
 insert into EmployeeTrigger values(1, 'John', 5000, 'Male', 3)
 insert into EmployeeTrigger values(2, 'Mike', 3400, 'Male', 2)
 insert into EmployeeTrigger values(3, 'Pam', 6000, 'Female', 1)
 insert into EmployeeTrigger values(4, 'Todd', 4800, 'Male', 4)
 insert into EmployeeTrigger values(5, 'Sara', 3200, 'Female', 1)
 insert into EmployeeTrigger values(6, 'Ben', 4800, 'Male', 3) 
---tehtud
+-- tehtud
 create table EmployeeAudit
 (
 Id int identity(1, 1) primary key,
 AuditData nvarchar(1000)
 )
 
-
-
---?
+-- создаем триггер который добавляет в таблицу EmployeeAudit информацию о новых работниках
 create trigger tr_Employee_ForInsert
 on EmployeeTrigger
 for insert
@@ -51,11 +50,13 @@ as begin
 	+ ' is added at ' + cast(Getdate() as nvarchar(20)))
 end
 
+-- Добавление новой записи в таблицу EmployeeTrigger
 insert into EmployeeTrigger values(7, 'Jimmy', 1800, 'Male', 3)
 
+-- Просмотр записей в таблице EmployeeAudit
 select * from EmployeeAudit
 
---- ?
+-- создаем триггер который добавляет в таблицу EmployeeAudit информацию о удаленных работниках
 create trigger EmployeeForDelete
 on EmployeeTrigger
 for delete
@@ -68,8 +69,10 @@ as begin
 	+ ' is deleted at ' + cast(GETDATE()as nvarchar(20)))
 end
 
+-- Удаление записи из таблицы EmployeeTrigger
 delete from EmployeeTrigger where Id = 7
 
+-- Просмотр записей в таблице EmployeeAudit
 select * from EmployeeAudit
 
 --- after trigger
@@ -84,11 +87,14 @@ as begin
 	select * from inserted
 end
 
+-- Обновляет Name, Salary, Gender в таблице EmployeeTrigger
 update EmployeeTrigger set Name = 'Todd', Salary = 2345,
 Gender = 'Male' where Id = 4
 
+-- удаляем триггер, что бы добавить его заного
+drop trigger trEmployeeForUpdate
 
---- ?
+-- создаем триггер который добавляет в таблицу EmployeeAudit информацию об изменении данных о работниках
 create trigger trEmployeeForUpdate
 on EmployeeTrigger
 for update
@@ -151,16 +157,22 @@ as begin
 	end
 end
 
+-- Просмотр записей в таблице EmployeeTrigger
 select * from EmployeeTrigger
 
+-- Изменение записи в таблице EmployeeTrigger
 update EmployeeTrigger set Name = 'Todd123', Salary = 3456,
 Gender = 'Female', DepartmentId = 3 
 where Id = 4
 
+-- Просмотр записей в таблице EmployeeTrigger и EmployeeAudit
 select * from EmployeeTrigger
 select * from EmployeeAudit
 
---?
+-- удаляем таблицу, в случае если она уже есть, и создаем заного
+
+drop table if exists Department;
+
 create table Department
 (
 Id int primary key,
@@ -172,14 +184,13 @@ insert into Department values(2, 'Payroll')
 insert into Department values(3, 'HR')
 insert into Department values(4, 'Admin')
 
-
 -- enne triggeri tegemist tuleb teha vaade?
 create view vEmployeeDetails
 as
 select EmployeeTrigger.Id, Name, Gender, DeptName
 from EmployeeTrigger
 join Department
-on EmployeeTrigger.DepartmentId = Department.Id
+on EmployeeTrigger.Id = Department.Id
 
 
 
