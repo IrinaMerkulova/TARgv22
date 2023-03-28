@@ -326,12 +326,12 @@ create proc spTotalCount2
 as begin
 	select @TotalCount = count(Id) from Employees
 end
---- käivitame sps
+--- käivitame sp
 declare @TotalEmployees int
 execute spTotalCount2 @TotalEmployees output
 select @TotalEmployees
 
---- ?
+--- Salvestatud protseduur võtab väljundparameetrina kaks sisendparameetrit: "Id" tüüpi "int" ja "FirstName" tüüpi "nvarchar(50)". Väljundparameetrit kasutatakse määratud ID-ga töötaja nime salvestamiseks.
 create proc spGetNameById1
 @Id int,
 @FirstName nvarchar(50) output
