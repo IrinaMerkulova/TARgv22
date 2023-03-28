@@ -214,7 +214,7 @@ select * from Employees
 ---tagastab loendi unikaalsete väärtuspaaride loendist "Name" ja "DepartmentId"
 select distinct Name, DepartmentId from Employees
 
----?
+---tagastab tabeli "Töötajad" veerus "Palk" olevate väärtuste summa
 select sum(cast(Salary as int)) from Employees
 ---?
 select min(cast(Salary as int)) from Employees
