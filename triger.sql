@@ -175,17 +175,26 @@ insert into Department2 values(3, 'HR')
 insert into Department2 values(4, 'Admin')
 
 
---8 Siin ei ole DeptName, on vaja kasutada ilma DeptName
+--8 Siin ei ole DeptName, on vaja kasutada ilma DeptName voi 
 create view vEmployeeDetails
 as
-select EmployeeTrigger.Id, Name, Gender
+select EmployeeTrigger.Id, Name, Gender, DeptName
 from EmployeeTrigger
 join Department
 on EmployeeTrigger.DepartmentId = Department.Id
 
 
+--9 Tegin teine vaade milline töötab Department2 tabeliga
+create view vEmployeeDetails2
+as
+select EmployeeTrigger.Id, Name, Gender, DeptName
+from EmployeeTrigger
+join Department2
+on EmployeeTrigger.Id = Department2.Id
 
----- instead of insert trigger
+
+
+---- 10 instead of insert trigger
 create trigger trEmployeeDetailsInsteadOfInsert
 on vEmployeeDetails
 instead of insert
@@ -220,13 +229,13 @@ delete from EmployeeTrigger where Id = 7
 select * from EmployeeTrigger
 select * from vEmployeeDetails
 
-
-update vEmployeeDetails
+--siin ma kasutasin vEmployeeDetails2
+update vEmployeeDetails2
 set DeptName = 'Payroll'
 where Id = 2
 
---- teeme vaate
-alter view vEmployeeDetailsUpdate
+--- teeme vaate alter muutusin create
+create view vEmployeeDetailsUpdate
 as
 select EmployeeTrigger.Id, Name, Salary, Gender, DeptName
 from EmployeeTrigger
@@ -237,7 +246,7 @@ select * from vEmployeeDetailsUpdate
 update EmployeeTrigger set DepartmentId = 4
 where Id = 4
 
---- ?
+--- muutusin Department, panin Department2 ja alter muutusin create
 alter trigger trEmployeeDetailsInsteadOfUpdate
 on vEmployeeDetailsUpdate
 instead of update
