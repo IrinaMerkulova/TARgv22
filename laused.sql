@@ -128,7 +128,7 @@ select * from Person where Name like '[^WAS]%'
 select * from Person where (City = 'Gotham' or City = 'New York')
 and Age >= 40
 
----võtab kolm esimest rida
+---võtab kolm esimest ridaa
 select top 3 * from Person
 
 --- kolm esimest, aga tabeli järjestus on Age ja siis Name
