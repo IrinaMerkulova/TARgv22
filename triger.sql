@@ -55,7 +55,7 @@ insert into EmployeeTrigger values(7, 'Jimmy', 1800, 'Male', 3)
 
 select * from EmployeeAudit
 
---- ?
+---созданный триггер вставляет новую запись со строкой в таблицу EmployeeAudit, содержащей информацию об удаленном сотруднике. 
 create trigger EmployeeForDelete
 on EmployeeTrigger
 for delete
