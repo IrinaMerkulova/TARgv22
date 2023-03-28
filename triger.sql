@@ -213,7 +213,7 @@ end
 -- selle eesmärk on välja tuua veateade, kui DepartmentName veerus ei ole väärtust
 -- ja ei ühti sisestatud väärtusega
 -- esimene parameeter on veateate sisu, teiene on veatase (nr 16 tähendab üldiseid vigu),
--- kolmas on veaolek
+-- kolmas on veaolekk
 
 insert into vEmployeeDetails values(7, 'Valarie', 'Female', 'assd')
 
