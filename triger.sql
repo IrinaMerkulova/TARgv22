@@ -90,8 +90,8 @@ update EmployeeTrigger set Name = 'Todd', Salary = 2345,
 Gender = 'Male' where Id = 4
 
 
---- ?
-create trigger trEmployeeForUpdate
+--- 
+create trigger trEmployeeForUpdate2
 on EmployeeTrigger
 for update
 as begin
@@ -163,16 +163,16 @@ select * from EmployeeTrigger
 select * from EmployeeAudit
 
 --?
-create table Department
+create table DepartmentTr
 (
 Id int primary key,
 DeptName nvarchar(20)
 )
 
-insert into Department values(1, 'IT')
-insert into Department values(2, 'Payroll')
-insert into Department values(3, 'HR')
-insert into Department values(4, 'Admin')
+insert into DepartmentTr values(1, 'IT')
+insert into DepartmentTr values(2, 'Payroll')
+insert into DepartmentTr values(3, 'HR')
+insert into DepartmentTr values(4, 'Admin')
 
 
 -- enne triggeri tegemist tuleb teha vaade?
