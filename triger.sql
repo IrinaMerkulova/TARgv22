@@ -22,7 +22,7 @@ Gender nvarchar(10),
 DepartmentId int
 )
 
--- ?
+-- taidame tabeli
 insert into EmployeeTrigger values(1, 'John', 5000, 'Male', 3)
 insert into EmployeeTrigger values(2, 'Mike', 3400, 'Male', 2)
 insert into EmployeeTrigger values(3, 'Pam', 6000, 'Female', 1)
@@ -38,7 +38,7 @@ AuditData nvarchar(1000)
 
 
 
---?
+--loome tigger mis paneb kirja inimeste lisamist
 create trigger tr_Employee_ForInsert
 on EmployeeTrigger
 for insert
@@ -55,7 +55,7 @@ insert into EmployeeTrigger values(7, 'Jimmy', 1800, 'Male', 3)
 
 select * from EmployeeAudit
 
---- ?
+-- loome tigger mis paneb kirja inimeste kustutamist
 create trigger EmployeeForDelete
 on EmployeeTrigger
 for delete
