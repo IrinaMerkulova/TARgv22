@@ -1,10 +1,10 @@
 -- db loomine
 create database Targv22
 
---?
+-- db kustutamine
 DRop DataBASE Targv22
 
---?
+--lisame tabel nimetatud Gender ja tabel nimetatud Person
 create table Gender
 (
 Id int NOT NULL primary key,
@@ -25,7 +25,7 @@ values (1, 'Female')
 insert into Gender (Id, Gender)
 values (2, 'Male')
 
---- ?
+--- Muutume tabeli Person, et lisame foreign key seotud Id-ga(Gender Tabel)
 alter table Person add constraint tblPerson_GenderId_FK
 foreign key (GenderId) references Gender(Id)
 
