@@ -22,14 +22,16 @@ Gender nvarchar(10),
 DepartmentId int
 )
 
--- ?
+-- 1 Lisame andmed EmployeeTrigger tabelisse
 insert into EmployeeTrigger values(1, 'John', 5000, 'Male', 3)
 insert into EmployeeTrigger values(2, 'Mike', 3400, 'Male', 2)
 insert into EmployeeTrigger values(3, 'Pam', 6000, 'Female', 1)
 insert into EmployeeTrigger values(4, 'Todd', 4800, 'Male', 4)
 insert into EmployeeTrigger values(5, 'Sara', 3200, 'Female', 1)
 insert into EmployeeTrigger values(6, 'Ben', 4800, 'Male', 3) 
---tehtud
+
+
+-- 2 tehtud - jah
 create table EmployeeAudit
 (
 Id int identity(1, 1) primary key,
@@ -38,7 +40,7 @@ AuditData nvarchar(1000)
 
 
 
---?
+--3 loome triggeri milline jäglib employee id ja AuditData ja sisetab EmployeeAudit tabelisse
 create trigger tr_Employee_ForInsert
 on EmployeeTrigger
 for insert
@@ -55,7 +57,7 @@ insert into EmployeeTrigger values(7, 'Jimmy', 1800, 'Male', 3)
 
 select * from EmployeeAudit
 
---- ?
+--- 4 loome triggeri milline jälgib kustutamine tabelist
 create trigger EmployeeForDelete
 on EmployeeTrigger
 for delete
@@ -75,7 +77,7 @@ select * from EmployeeAudit
 --- after trigger
 -- kasutavad kahte tabelit, milleks on INSERTED ja DELETED
 
--- after trigger näide / tehtud
+-- 5 after trigger näide / tehtud
 create trigger trEmployeeForUpdate
 on EmployeeTrigger
 for update
@@ -88,8 +90,8 @@ update EmployeeTrigger set Name = 'Todd', Salary = 2345,
 Gender = 'Male' where Id = 4
 
 
---- ?
-create trigger trEmployeeForUpdate
+---6 Siin me nimetame triggeri teise nimena, sest trEmployeeForUpdate juba on olemas
+create trigger trEmployeeForUpdate2
 on EmployeeTrigger
 for update
 as begin
@@ -151,7 +153,7 @@ as begin
 	end
 end
 
-select * from EmployeeTrigger
+select * from EmployeeTrigger2
 
 update EmployeeTrigger set Name = 'Todd123', Salary = 3456,
 Gender = 'Female', DepartmentId = 3 
@@ -160,23 +162,23 @@ where Id = 4
 select * from EmployeeTrigger
 select * from EmployeeAudit
 
---?
-create table Department
+--7 Siin me teeme uue tabeli Department2
+create table Department2
 (
 Id int primary key,
 DeptName nvarchar(20)
 )
 
-insert into Department values(1, 'IT')
-insert into Department values(2, 'Payroll')
-insert into Department values(3, 'HR')
-insert into Department values(4, 'Admin')
+insert into Department2 values(1, 'IT')
+insert into Department2 values(2, 'Payroll')
+insert into Department2 values(3, 'HR')
+insert into Department2 values(4, 'Admin')
 
 
--- enne triggeri tegemist tuleb teha vaade?
+--8 Siin ei ole DeptName, on vaja kasutada ilma DeptName
 create view vEmployeeDetails
 as
-select EmployeeTrigger.Id, Name, Gender, DeptName
+select EmployeeTrigger.Id, Name, Gender
 from EmployeeTrigger
 join Department
 on EmployeeTrigger.DepartmentId = Department.Id
