@@ -249,10 +249,10 @@ as begin
 	if(UPDATE(DeptName))
 	begin
 		declare @DeptId int
-		select @DeptId = Department.Id
-		from Department
+		select @DeptId = Department1.Id
+		from Department1
 		join inserted
-		on inserted.DeptName = Department.DeptName
+		on inserted.DeptName = Department1.DeptName
 		if(@DeptId is null)
 		begin
 			raiserror('Invalid Department Name', 16, 1)
