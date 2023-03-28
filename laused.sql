@@ -216,7 +216,7 @@ values (10, 'Russell', 'Male', 8800, NULL)
 
 select * from Employees
 
----?
+---valib ainulaadsed töötaja nimed ja osakondade identifikaatorid tabelist Employees
 select distinct Name, DepartmentId from Employees
 
 ---?
