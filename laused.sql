@@ -160,6 +160,7 @@ select min(cast(Age as int)) from Person
 --- kõige vanem isik
 select max(cast(Age as int)) from Person
 
+--l rühmitab kirjed tabelis "Person" veeru "City" järgi ja arvutab iga rühma veeru "Age" summa. Tulemus sisaldab kahte veergu: "City" ja "TotalAge".
 select City, sum(cast(Age as int)) as TotalAge from Person group by City
 
 
