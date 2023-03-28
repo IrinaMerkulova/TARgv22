@@ -151,17 +151,17 @@ select top 3 Age, Name from Person
 
 --- näitab esimesed 50% tabelis
 select top 50 percent * from Person
---soorteerib isikud nende vanuse järgi kasvavas järjekorras ja teisendab int vormile
+--soorteerib Person nende vanuse järgi kasvavas järjekorras ja teisendab int vormile
 select * from Person order by cast(Age as int)
---soorteerib isikud nende vanuse järgi
+--soorteerib Person nende vanuse järgi
 select * from Person order by Age
 
 --sumeerib kõi vanused ja teisendab int vormile
 select sum(cast(Age as int)) from Person
 
---- kuvab kõige nooremat isikut
+--- kuvab kõige nooremat person ja teisendab int vormile
 select min(cast(Age as int)) from Person
---- kõige vanem isik
+--- kõige vanem Person ja teisendab int vormile
 select max(cast(Age as int)) from Person
 
 select City, sum(cast(Age as int)) as TotalAge from Person group by City
@@ -189,7 +189,7 @@ Salary nvarchar(50),
 DepartmentId int
 )
 
---?
+--sisestame andmed
 insert into Department (Id, DepartmentName, Location, DepartmentHead)
 values (1, 'IT', 'London', 'Rick')
 insert into Department (Id, DepartmentName, Location, DepartmentHead)
@@ -224,12 +224,12 @@ values (10, 'Russell', 'Male', 8800, NULL)
 
 select * from Employees
 
----?
+--- duplikaatidest vabanemine
 select distinct Name, DepartmentId from Employees
 
----?
+---summerib palgad ja teisendab int vormile
 select sum(cast(Salary as int)) from Employees
----?
+---kuvab kõige vähem palk ja teisendab int vormile
 select min(cast(Salary as int)) from Employees
 
 
@@ -242,12 +242,15 @@ add DepartmentId
 int null
 
 
---?
+--lisame uue veeru tabelisse
 alter table Employees
 add MiddleName nvarchar(30)
 
 alter table Employees
 add LastName nvarchar(30)
+
+alter table Employees
+add FirstName nvarchar(30)
 
 update Employees set FirstName = 'Tom', MiddleName = 'Nick', LastName = 'Jones'
 where Id = 1
