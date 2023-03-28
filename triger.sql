@@ -88,8 +88,9 @@ update EmployeeTrigger set Name = 'Todd', Salary = 2345,
 Gender = 'Male' where Id = 4
 
 
---- ?
-create trigger trEmployeeForUpdate
+--- созданный триггер обновляет данные в EmployeeTrigger
+---сменила имя триггера
+create trigger trEmployeeForUpdate1
 on EmployeeTrigger
 for update
 as begin
