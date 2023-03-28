@@ -176,6 +176,7 @@ insert into Department2 values(4, 'Admin')
 
 
 -- enne triggeri tegemist tuleb teha vaade?
+--tabelite "EmployureTrigger" ja "Department2" andmete ühendamine ja töötajate üksikasjade kokkuvõtliku vaate pakkumine koos nende vastavate osakondade nimedega.
 create view vEmployeeDetails
 as
 select EmployeeTrigger.Id, Name, Gender, DeptName
