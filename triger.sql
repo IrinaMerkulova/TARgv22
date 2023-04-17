@@ -58,7 +58,7 @@ insert into EmployeeTrigger values(7, 'Jimmy', 1800, 'Male', 3)
 -- Просмотр записей в таблице EmployeeAudit
 select * from EmployeeAudit
 
--- Создание триггера на удаление записей из таблицы EmployeeTrigger
+-- Создание триггера EmployeeForDelete который регистрирует информацию о каждом удалении записи из таблицы EmployeeTrigger в таблицу EmployeeAudit
 create trigger EmployeeForDelete
 on EmployeeTrigger
 for delete
@@ -89,9 +89,12 @@ as begin
 	select * from inserted
 end
 
+-- Меняем значение на определеннеые где id = 4
 update EmployeeTrigger set Name = 'Todd', Salary = 2345,
 Gender = 'Male' where Id = 4
 
+-- Удаляем триггер, потому что до этого создавали его
+drop trigger trEmployeeForUpdate
 
 -- Создание триггера на изменение записей в таблице EmployeeTrigger
 create trigger trEmployeeForUpdate
@@ -156,6 +159,7 @@ as begin
 	end
 end
 
+-- Просмотреть все записи в таблице EmployeeTrigger
 select * from EmployeeTrigger
 
 -- Изменение записи в таблице EmployeeTrigger
@@ -163,10 +167,12 @@ update EmployeeTrigger set Name = 'Todd123', Salary = 3456,
 Gender = 'Female', DepartmentId = 3 
 where Id = 4
 
+-- Просмотреть все записи в таблице EmployeeTrigger, EmployeeAudit
 select * from EmployeeTrigger
 select * from EmployeeAudit
 
---?
+-- Создаем новую таблицу Department и вставляем в нее некоторые значения
+drop table if exists Department
 create table Department
 (
 Id int primary key,
@@ -217,8 +223,10 @@ end
 -- esimene parameeter on veateate sisu, teiene on veatase (nr 16 tähendab üldiseid vigu),
 -- kolmas on veaolek
 
+-- Добавялем в vEmployeeDetails некоторые значения.
 insert into vEmployeeDetails values(7, 'Valarie', 'Female', 'assd')
 
+-- Удаляем эти значения
 delete from EmployeeTrigger where Id = 7
 --- 10 tund SQL
 select * from EmployeeTrigger
@@ -241,7 +249,7 @@ select * from vEmployeeDetailsUpdate
 update EmployeeTrigger set DepartmentId = 4
 where Id = 4
 
---- ?
+--- Изменяем существующий триггер trEmployeeDetailsInsteadOfUpdate, триггер выполняется вместо update, проверяет и корректно обновляет информацию о сотрудниках, когда изменяются данные.
 alter trigger trEmployeeDetailsInsteadOfUpdate
 on vEmployeeDetailsUpdate
 instead of update
@@ -304,7 +312,7 @@ set Name = 'Johny', Gender = 'Female', DeptName = 'IT'
 where Id = 1
 
 
---- ?
+--- Создание тригера trEmployeeDetails_InsteadOfDelete, когда пользователь попытается удалить что-то в таблице vEmployeeDetails, вместо этого тригер удалить запись из EmployeeTrigger.
 
 create trigger trEmployeeDetails_InsteadOfDelete
 on vEmployeeDetails
